@@ -10,4 +10,8 @@ class Reception extends Model
     use HasFactory;
 
     protected $table = 'receptions';
+
+    public function user(){
+        return $this->hasMany(User::class);
+    }
 }
