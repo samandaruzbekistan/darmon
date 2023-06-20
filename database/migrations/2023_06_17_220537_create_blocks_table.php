@@ -16,6 +16,9 @@ return new class extends Migration
         Schema::create('blocks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('letter');
+            $table->integer('ward_count')->default(0);
+
             $table->timestamps();
         });
     }

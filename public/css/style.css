@@ -66,37 +66,15 @@
 
 
 /*** Layout ***/
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 250px;
-    height: 100vh;
-    overflow-y: auto;
-    background: var(--light);
-    transition: 0.5s;
-    z-index: 999;
-}
-
 .content {
-    margin-left: 250px;
     min-height: 100vh;
     background: #FFFFFF;
     transition: 0.5s;
 }
 
 @media (min-width: 992px) {
-    .sidebar {
-        margin-left: 0;
-    }
-
-    .sidebar.open {
-        margin-left: -250px;
-    }
-
     .content {
-        width: calc(100% - 250px);
+        width: 100%;
     }
 
     .content.open {
@@ -106,14 +84,6 @@
 }
 
 @media (max-width: 991.98px) {
-    .sidebar {
-        margin-left: -250px;
-    }
-
-    .sidebar.open {
-        margin-left: 0;
-    }
-
     .content {
         width: 100%;
         margin-left: 0;
@@ -122,23 +92,19 @@
 
 
 /*** Navbar ***/
-.sidebar .navbar .navbar-nav .nav-link {
+.navbar .navbar-nav .nav-link {
     padding: 7px 20px;
     color: var(--dark);
     font-weight: 500;
-    border-left: 3px solid var(--light);
-    border-radius: 0 30px 30px 0;
     outline: none;
 }
 
-.sidebar .navbar .navbar-nav .nav-link:hover,
-.sidebar .navbar .navbar-nav .nav-link.active {
+.navbar .navbar-nav .nav-link:hover,
+.navbar .navbar-nav .nav-link.active {
     color: var(--primary);
-    background: #FFFFFF;
-    border-color: var(--primary);
 }
 
-.sidebar .navbar .navbar-nav .nav-link i {
+.navbar .navbar-nav .nav-link i {
     width: 40px;
     height: 40px;
     display: inline-flex;
@@ -148,12 +114,12 @@
     border-radius: 40px;
 }
 
-.sidebar .navbar .navbar-nav .nav-link:hover i,
-.sidebar .navbar .navbar-nav .nav-link.active i {
+.navbar .navbar-nav .nav-link:hover i,
+.navbar .navbar-nav .nav-link.active i {
     background: var(--light);
 }
 
-.sidebar .navbar .dropdown-toggle::after {
+.navbar .dropdown-toggle::after {
     position: absolute;
     top: 15px;
     right: 15px;
@@ -164,11 +130,11 @@
     transition: .5s;
 }
 
-.sidebar .navbar .dropdown-toggle[aria-expanded=true]::after {
+.navbar .dropdown-toggle[aria-expanded=true]::after {
     transform: rotate(-180deg);
 }
 
-.sidebar .navbar .dropdown-item {
+.navbar .dropdown-item {
     padding-left: 25px;
     border-radius: 0 30px 30px 0;
 }

@@ -15,16 +15,22 @@ class ReceptionController extends Controller
 
 
 
-
+// Receptionni auth qilish
     public function auth(ReceptionAuthRequest $request){
         $result = $this->receptionService->checkReception($request->login, $request->password);
         if($result == 1){
-            return 'aaa';
+            return redirect(route('reception_home'));
         }
         else{
-            return 'bb';
-        }
+            return redirect(route('reception_login'));
 
+        }
+    }
+
+
+//    Receptionning bosh sahifasi. Blocklarni qaytaradi.
+    public function reception_home(){
+        return view('reception.home')->with('blocks', $this->receptionService->getBlocks());
     }
 
 }

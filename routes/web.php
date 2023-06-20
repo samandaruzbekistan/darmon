@@ -19,5 +19,5 @@ Route::view('/reception', 'reception.login')->name('reception_login_page');
 Route::post('reception-auth', [ReceptionController::class, 'auth'])->name('reception_login');
 
 Route::middleware(['reception_auth'])->group(function () {
-    Route::view('/add', 'reception.login');
+    Route::get('reception-home', [ReceptionController::class, 'reception_home'])->name('reception_home');
 });
