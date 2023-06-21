@@ -81,11 +81,11 @@
                     <div
                         class="bg-light rounded d-flex align-items-center justify-content-between p-4"
                     >
-                        <h1 class="text-primary">A</h1>
+                        <h1 class="text-primary">{{ $item->letter }}</h1>
                         <a href="./a-section.html">
                             <div class="ms-3">
-                                <p class="mb-2">A blog</p>
-                                <h6 class="mb-0">Umumiy palatalar soni: <span>0</span></h6>
+                                <p class="mb-2">{{ $item->name }}</p>
+                                <h6 class="mb-0">Umumiy palatalar soni: <span>{{ $item->ward_count }}</span></h6>
                             </div>
                         </a>
                         <div class="d-flex gap-1">

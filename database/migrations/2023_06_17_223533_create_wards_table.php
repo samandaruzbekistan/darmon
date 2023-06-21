@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreign('block_id')->references('id')->on('blocks');
             $table->string('type')->default('standart');
             $table->integer('max_space');
+            $table->integer('users_count');
             $table->integer('empty_space');
             $table->integer('status')->default(0);
             $table->timestamps();

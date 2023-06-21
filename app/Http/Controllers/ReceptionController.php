@@ -40,5 +40,13 @@ class ReceptionController extends Controller
     }
 
 
+//    Palatani ko'rish
+    public function showWard($id){
+        if (!isset($id)){
+            return back();
+        }
+        $wards = $this->receptionService->getWards($id);
+        return view('reception.wards')->with('wards', $wards);
+    }
 
 }

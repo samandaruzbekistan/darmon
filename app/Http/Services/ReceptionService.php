@@ -29,6 +29,10 @@ class ReceptionService
         return $this->receptionRepository->getBlocks();
     }
 
+    public function getWards($id){
+        return $this->receptionRepository->getWards($id);
+    }
+
     public function logout(){
         session()->flush();
     }

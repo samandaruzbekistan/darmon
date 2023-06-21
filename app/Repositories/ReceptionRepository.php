@@ -39,8 +39,7 @@ class ReceptionRepository
 //  Palata malumotlarni qaytaradi
     public function showWard($id){
         $ward = Ward::find($id);
-        $users = User::where('ward_id', $id)->get();
-        return ['ward' => $ward, 'users' => $users];
+        return $ward;
     }
 
 //    Userlarni bazadan qidirish
