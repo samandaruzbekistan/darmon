@@ -50,4 +50,7 @@ class ReceptionRepository
     }
 
 
+//    User add to ward
+
+
 }

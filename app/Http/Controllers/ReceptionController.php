@@ -27,10 +27,18 @@ class ReceptionController extends Controller
         }
     }
 
+//    Reception logout
+    public function logout_reception(){
+        $this->receptionService->logout();
+        return redirect()->route('reception_login_page');
+    }
+
 
 //    Receptionning bosh sahifasi. Blocklarni qaytaradi.
     public function reception_home(){
         return view('reception.home')->with('blocks', $this->receptionService->getBlocks());
     }
+
+
 
 }

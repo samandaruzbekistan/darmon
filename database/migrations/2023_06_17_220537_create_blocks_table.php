@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('letter');
             $table->integer('ward_count')->default(0);
-
+            $table->integer('users_count')->default(0);
+            $table->float('filled_prosent')->default(0);
             $table->timestamps();
         });
     }

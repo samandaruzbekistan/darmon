@@ -28,4 +28,8 @@ class ReceptionService
     public function getBlocks(){
         return $this->receptionRepository->getBlocks();
     }
+
+    public function logout(){
+        session()->flush();
+    }
 }

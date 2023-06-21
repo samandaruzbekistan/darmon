@@ -20,4 +20,5 @@ Route::post('reception-auth', [ReceptionController::class, 'auth'])->name('recep
 
 Route::middleware(['reception_auth'])->group(function () {
     Route::get('reception-home', [ReceptionController::class, 'reception_home'])->name('reception_home');
+    Route::get('logout_reception', [ReceptionController::class, 'logout_reception'])->name('logout_reception');
 });

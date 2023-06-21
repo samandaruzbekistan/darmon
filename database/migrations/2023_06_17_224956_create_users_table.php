@@ -33,6 +33,7 @@ return new class extends Migration
             $table->date('arrival_date')->useCurrent();
             $table->date('departure_date');
             $table->integer('ward_id');
+            $table->integer('block_id');
             $table->foreign('ward_id')->references('id')->on('wards');
             $table->timestamps();
         });

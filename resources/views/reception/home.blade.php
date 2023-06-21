@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>DASHMIN - Bootstrap Admin Template</title>
+    <title>DARMON - Qabulxona</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -59,14 +59,14 @@
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item">
                     <a
-                        href="./sections.html"
+                        href="{{ route('reception_home') }}"
                         class="nav-link active"
                     >
                         <i class="fa fa-hospital me-lg-2"></i>
                         <span class="d-none d-lg-inline-flex">Bloglar</span>
                     </a>
                 </div>
-                <button class="btn btn-primary mx-2">
+                <button class="btn btn-primary mx-2" onclick="logout()">
                     <i class="fa fa-sign-out-alt"></i>
                     Chiqish
                 </button>
@@ -76,7 +76,8 @@
 
         <div class="container-fluid pt-4 px-4">
             <div class="row g-4">
-                <div class="col-sm-6 col-xl-3">
+                @foreach($blocks as $item)
+                    <div class="col-sm-6 col-xl-3">
                     <div
                         class="bg-light rounded d-flex align-items-center justify-content-between p-4"
                     >
@@ -98,72 +99,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xl-3">
-                    <div
-                        class="bg-light rounded d-flex align-items-center justify-content-between p-4"
-                    >
-                        <h1 class="text-primary">B</h1>
-                        <a href="./b-section.html">
-                            <div class="ms-3">
-                                <p class="mb-2">B blog</p>
-                                <h6 class="mb-0">Umumiy palatalar soni: <span>0</span></h6>
-                            </div>
-                        </a>
-                        <div class="d-flex gap-1">
-                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editBlog">
-                                <i class="bi bi-pencil-fill"></i>
-                            </button>
-                            </button>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReport">
-                                <i class="bi-clipboard"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-xl-3">
-                    <div
-                        class="bg-light rounded d-flex align-items-center justify-content-between p-4"
-                    >
-                        <h1 class="text-primary">C</h1>
-                        <a href="./c-section.html">
-                            <div class="ms-3">
-                                <p class="mb-2">C blog</p>
-                                <h6 class="mb-0">Umumiy palatalar soni: <span>0</span></h6>
-                            </div>
-                        </a>
-                        <div class="d-flex gap-1">
-                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editBlog">
-                                <i class="bi bi-pencil-fill"></i>
-                            </button>
-                            </button>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReport">
-                                <i class="bi-clipboard"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-xl-3">
-                    <div
-                        class="bg-light rounded d-flex align-items-center justify-content-between p-4"
-                    >
-                        <h1 class="text-primary">D</h1>
-                        <a href="./a-section.html">
-                            <div class="ms-3">
-                                <p class="mb-2">D blog</p>
-                                <h6 class="mb-0">Umumiy palatalar soni: <span>0</span></h6>
-                            </div>
-                        </a>
-                        <div class="d-flex gap-1">
-                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editBlog">
-                                <i class="bi bi-pencil-fill"></i>
-                            </button>
-                            </button>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReport">
-                                <i class="bi-clipboard"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
 
@@ -262,6 +198,11 @@
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" data-bs-toggle="modal" data-bs-target="#addBlog"><i class="bi bi-plus"></i></a>
     </div>
 </div>
+    <script>
+        function logout() {
+            window.location="{{ route('logout_reception') }}";
+        }
+    </script>
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
