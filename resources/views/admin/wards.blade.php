@@ -1,6 +1,6 @@
 @extends('admin.header')
 
-@section('blocks')
+@section('wards')
     active
 @endsection
 @section('section')

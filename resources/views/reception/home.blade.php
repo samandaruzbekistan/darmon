@@ -30,6 +30,7 @@
 
     <!-- Template Stylesheet -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/chart.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -49,11 +50,11 @@
     <div class="content">
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-            <form class="d-none d-md-flex ms-4">
-                <input
+            <form class="d-none d-md-flex ms-4" >
+                <input id="searchInput"
                     class="form-control border-0"
                     type="search"
-                    placeholder="Search"
+                    placeholder="Qidirish"
                 />
             </form>
             <div class="navbar-nav align-items-center ms-auto">
@@ -82,20 +83,22 @@
                         class="bg-light rounded d-flex align-items-center justify-content-between p-4"
                     >
                         <h1 class="text-primary">{{ $item->letter }}</h1>
-                        <a href="./a-section.html">
+                        <a href="{{ route('showWard', ['id' => $item->id]) }}">
                             <div class="ms-3">
                                 <p class="mb-2">{{ $item->name }}</p>
                                 <h6 class="mb-0">Umumiy palatalar soni: <span>{{ $item->ward_count }}</span></h6>
+                                <h6 class="mb-0">Umumiy bemorlar soni: <span>{{ $item->ward_count }}</span></h6>
                             </div>
                         </a>
                         <div class="d-flex gap-1">
+{{--                            <div class="pie animate" style="--p:90;--c:lightgreen"> 90%</div>--}}
                             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editBlog">
                                 <i class="bi bi-pencil-fill"></i>
                             </button>
-                            </button>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReport">
-                                <i class="bi-clipboard"></i>
-                            </button>
+{{--                            </button>--}}
+{{--                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReport">--}}
+{{--                                <i class="bi-clipboard"></i>--}}
+{{--                            </button>--}}
                         </div>
                     </div>
                 </div>
@@ -103,92 +106,22 @@
             </div>
         </div>
 
-        <!-- ADD BLOG MODAL -->
-        <div class="modal fade" id="addBlog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Yangi blog qo'shish</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="input1" class="form-label">Blog nomi</label>
-                            <input type="text" class="form-control" id="input1">
-                        </div>
-                        <div class="mb-3">
-                            <label for="input2" class="form-label">Umumiy palatalar qamrovi</label>
-                            <input type="number" class="form-control" id="input2">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor qilish</button>
-                            <button type="button" class="btn btn-primary">Saqlash</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- EDIT BLOG MODAL -->
-        <div class="modal fade" id="editBlog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Blog ma'lumotlarini tahrirlash</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="input1" class="form-label">Blog nomi</label>
-                            <input type="text" class="form-control" id="input1">
-                        </div>
-                        <div class="mb-3">
-                            <label for="input3" class="form-label">Umumiy palatalar soni</label>
-                            <input type="number" class="form-control" id="input3">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor qilish</button>
-                            <button type="button" class="btn btn-primary">Saqlash</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- ADD REPORT MODAL -->
-        <div class="modal fade" id="addReport" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- Search MODAL -->
+        <div class="modal fade h-50" id="editBlog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Hisobot kiritish</h5>
+                        <input id="modalSearchInput" type="text" class="form-control" placeholder="Qidirish...">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="input1" class="form-label">Palata nomi</label>
-                            <input type="text" class="form-control" id="input1">
-                        </div>
-                        <div class="mb-3">
-                            <label for="input2" class="form-label">Shifokor ism-familiyasi</label>
-                            <select name="selectDoctor" id="input2" class="form-select">
-                                <option value="">Doktor Haus</option>
-                                <option value="">Doktor Jamshid</option>
-                                <option value="">Doktor Doniyor</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="input3" class="form-label">Hisobot</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor qilish</button>
-                            <button type="button" class="btn btn-primary">Saqlash</button>
-                        </div>
+                    <div class="modal-body overflow-auto" id="modalReferences">
+
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Content End -->
 
 
         <!-- Back to Top -->
@@ -213,7 +146,68 @@
     <script src="{{ asset('lib/tempusdominus/js/moment.min.js') }}"></script>
     <script src="{{ asset('lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
     <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            // Show modal on search input click
+            $('#searchInput').on('click', function() {
+                $('#editBlog').modal('show');
+            });
 
+            // Handle form submission in modal
+            $('#editBlog').on('click', '.btn-primary', function() {
+                var blogName = $('#input1').val();
+                var totalViews = $('#input3').val();
+
+                // Perform further actions (e.g., AJAX request to save the changes)
+                // ...
+
+                // Close the modal
+                $('#editBlog').modal('hide');
+            });
+
+
+            // Handle search input in modal
+            $('#modalSearchInput').on('input', function() {
+                var query = $(this).val();
+                var loadingIndicator = $('#loadingIndicator');
+
+                // Display the loading indicator
+                loadingIndicator.show();
+
+                // Make AJAX request to fetch search results
+                $.ajax({
+                    url: '{{ route('reception_search_users') }}', // Replace with your backend route for handling search
+                    method: 'GET',
+                    data: { name: query },
+                    success: function(response) {
+                        var references = response; // Assign the response directly
+                        var referencesHtml = '';
+
+                        // Loop through the references and generate HTML
+                        for (var i = 0; i < references.length; i++) {
+                            referencesHtml += '<p><i class="bi bi-person-fill"></i> F.I.Sh: ' + references[i].name + '</p>';
+                            referencesHtml += '<p><i class="bi bi-house-fill"></i> Joylashuv: ' + references[i].block_name + ',' + references[i].ward_name + '</p>';
+                            referencesHtml += '<p><i class="bi bi-telephone-fill"></i> Telefon: ' + references[i].phone + '</p>';
+                            // Add more fields as needed
+                            referencesHtml += '<hr>';
+                        }
+
+                        // Display the references in the modal
+                        $('#modalReferences').html(referencesHtml);
+
+                        // Hide the loading indicator
+                        loadingIndicator.hide();
+                    },
+                    error: function() {
+                        // Handle error case
+                        // Hide the loading indicator
+                        loadingIndicator.hide();
+                    }
+                });
+
+            });
+        });
+    </script>
     <!-- Template Javascript -->
     <script src="{{ asset('js/main.js') }}"></script>
     <script src="{{ asset('js/modals.js') }}"></script>

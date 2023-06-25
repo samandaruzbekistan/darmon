@@ -12,6 +12,9 @@ class AdminService
     {
     }
 
+    const SUCCESSFUL = 1;
+    const UNSUCCESSFUL = 0;
+
     public function adminCheck($login, $password){
         $res = $this->adminRepository->checkAdmin($login, $password);
         if (count($res) != 0){
@@ -22,6 +25,10 @@ class AdminService
         else{
             return 0;
         }
+    }
+
+    public function logout(){
+        session()->flush();
     }
 
     public function home(){
@@ -42,4 +49,17 @@ class AdminService
     public function getWards($block_id,$type,$status){
         return $this->adminRepository->getWards($block_id, $type,$status);
     }
+
+
+//    Add Doctor
+    public function addDoctor($name, $profession, $phone){
+        if ($this->adminRepository->getDoctor($name)) {
+            return self::UNSUCCESSFUL;
+        }
+        $this->adminRepository->addDoctor($name, $profession, $phone);
+        return self::SUCCESSFUL;
+    }
+
+
+
 }

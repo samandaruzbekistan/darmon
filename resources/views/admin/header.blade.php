@@ -47,22 +47,25 @@
     <!-- Sidebar Start -->
     <div class="sidebar pe-4 pb-3">
         <nav class="navbar bg-light navbar-light">
-            <a href="index.html" class="navbar-brand mx-4 mb-3">
-                <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>ADMIN</h3>
+            <a href="{{ route('admin_home') }}" class="navbar-brand mx-4 mb-3">
+                <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DARMON</h3>
             </a>
             <div class="navbar-nav w-100">
                 <a href="{{ route('admin_home') }}" class="nav-item nav-link @yield('home')"><i class="fa fa-tachometer-alt me-2"></i>Bosh menu</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a>
                     <div class="dropdown-menu bg-transparent border-0">
-                        <a href="button.html" class="dropdown-item">Shifokorlar</a>
+                        <a href="{{ route('doctors') }}" class="dropdown-item">Shifokorlar</a>
                         <a href="typography.html" class="dropdown-item">Typography</a>
                         <a href="element.html" class="dropdown-item">Other Elements</a>
                     </div>
                 </div>
-                <a href="widget.html" class="nav-item nav-link"><i class="fas fa-user-md me-2"></i>Shifokorlar</a>
                 <a href="{{ route('admin_blocks') }}" class="nav-item nav-link  @yield('blocks')"><i class="fa fa-table me-2"></i>Bloklar</a>
-                <a href="{{ route('admin_wards', ['block_id' => 'all', 'type' => 'all', 'status' => 'all']) }}" class="nav-item nav-link"><i class="fas fa-th-large me-2"></i>Palatalar</a>
+                <a href="{{ route('admin_wards', ['block_id' => 'all', 'type' => 'all', 'status' => 'all']) }}" class="nav-item nav-link  @yield('wards')"><i class="fas fa-th-large me-2"></i>Palatalar</a>
+                <a href="{{ route('doctors') }}" class="nav-item nav-link"><i class="fas fa-user-md me-2"></i>Shifokorlar</a>
+                <a href="widget.html" class="nav-item nav-link"><i class="fas fa-sign-out-alt me-2"></i>Qabulxona</a>
+                <a href="widget.html" class="nav-item nav-link"><i class="fas fa-notes-medical me-2"></i>Hamshiralar</a>
+
                 <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
             </div>
         </nav>
@@ -80,19 +83,19 @@
                 <i class="fa fa-bars"></i>
             </a>
             <form class="d-none d-md-flex ms-4">
-                <input class="form-control border-0" type="search" placeholder="Search">
+                <input class="form-control border-0" type="search" placeholder="Qidiruv...">
             </form>
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item">
                     <a
-                        href="./c-section.html"
+                        href="#"
                         class="nav-link active"
                     >
                         <i class="fa fa-hospital"></i>
-                        <span class="d-none d-lg-inline-flex">Blog-C</span>
+{{--                        <span class="d-none d-lg-inline-flex">Blog-C</span>--}}
                     </a>
                 </div>
-                <a href="./signin.html">
+                <a href="{{ route('admin_logout') }}">
                     <button class="btn btn-primary mx-2">
                         <i class="fa fa-sign-out-alt"></i>
                         Chiqish

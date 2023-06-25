@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Block;
 use App\Models\Doctor;
 use App\Models\Ward;
+use http\Env\Request;
 
 class AdminRepository
 {
@@ -68,4 +69,60 @@ class AdminRepository
 
         return $query->get();
     }
+
+
+//    Delete block
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  Get doctors
+    public function getDoctors(){
+        $doctors = Doctor::orderBy('name')->get();
+        return $doctors;
+    }
+
+
+//    GetDoctor
+    public function getDoctor($name){
+        $doctor = Doctor::where('name', $name)
+            ->first();
+        return $doctor;
+    }
+
+
+//    Add Doctor
+    public function addDoctor($name, $profession, $phone){
+        $doctor = new Doctor;
+        $doctor->name = $name;
+        $doctor->profession = $profession;
+        $doctor->phone = $phone;
+        $doctor->save();
+    }
+
+
+
 }
