@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\Models\Admin;
 use App\Models\Block;
 use App\Models\Doctor;
+use App\Models\Nurse;
+use App\Models\Reception;
 use App\Models\Ward;
 use http\Env\Request;
 
@@ -35,7 +37,7 @@ class AdminRepository
 
 //    Doctors count
     public function getDoctorsCount(){
-        return Doctor::sum('id');
+        return Doctor::count('id');
     }
 
 //    Get all blocks
@@ -51,8 +53,33 @@ class AdminRepository
         $block->save();
     }
 
-//    Get all wards
-    public function getWards($block_id,$type,$status){
+
+
+
+
+
+
+    public function getWards()
+    {
+        return Ward::all();
+    }
+
+//    Add war
+    public function add_ward($data){
+        $block = Block::find($data->block_id);
+        $block->increment('ward_count');
+        $block->increment('space_count', $data->space_count);
+
+        Ward::create([
+            'number' => $data->number,
+            'type' => $data->type,
+            'block_id' => $data->block_id,
+            'space_count' => $data->space_count,
+        ]);
+    }
+
+//    Get all wards by params
+    public function getWardsWithParams($block_id,$type,$status){
         $query = Ward::query();
 
         if ($block_id !== 'all') {
@@ -115,7 +142,7 @@ class AdminRepository
 
 
 //    Add Doctor
-    public function addDoctor($name, $profession, $phone){
+    public function addDoctor($name, $phone, $profession){
         $doctor = new Doctor;
         $doctor->name = $name;
         $doctor->profession = $profession;
@@ -123,6 +150,17 @@ class AdminRepository
         $doctor->save();
     }
 
+
+
+//    Hamshira va Receptionlar
+
+    public function getNurses(){
+        return Nurse::orderBy('name')->get();
+    }
+
+    public function getReceptions(){
+        return Reception::orderBy('name')->get();
+    }
 
 
 }

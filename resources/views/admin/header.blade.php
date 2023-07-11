@@ -61,10 +61,10 @@
                     </div>
                 </div>
                 <a href="{{ route('admin_blocks') }}" class="nav-item nav-link  @yield('blocks')"><i class="fa fa-table me-2"></i>Bloklar</a>
-                <a href="{{ route('admin_wards', ['block_id' => 'all', 'type' => 'all', 'status' => 'all']) }}" class="nav-item nav-link  @yield('wards')"><i class="fas fa-th-large me-2"></i>Palatalar</a>
-                <a href="{{ route('doctors') }}" class="nav-item nav-link"><i class="fas fa-user-md me-2"></i>Shifokorlar</a>
-                <a href="widget.html" class="nav-item nav-link"><i class="fas fa-sign-out-alt me-2"></i>Qabulxona</a>
-                <a href="widget.html" class="nav-item nav-link"><i class="fas fa-notes-medical me-2"></i>Hamshiralar</a>
+                <a href="{{ route('admin_wards') }}" class="nav-item nav-link  @yield('wards')"><i class="fas fa-th-large me-2"></i>Palatalar</a>
+                <a href="{{ route('doctors') }}" class="nav-item nav-link @yield('doctors')"><i class="fas fa-user-md me-2"></i>Shifokorlar</a>
+                <a href="{{ route('receptions') }}" class="nav-item nav-link"><i class="fas fa-sign-out-alt me-2"></i>Qabulxona</a>
+                <a href="{{ route('nurses') }}" class="nav-item nav-link"><i class="fas fa-notes-medical me-2"></i>Hamshiralar</a>
 
                 <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
             </div>
@@ -110,7 +110,7 @@
         @yield('section')
 
 
-
+        </div>
 
     </div>
     <!-- Content End -->
@@ -125,6 +125,8 @@
     <script src="{{ asset('lib/tempusdominus/js/moment.min.js') }}"></script>
     <script src="{{ asset('lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
     <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+
+    @yield('js')
 
     <!-- Template Javascript -->
     <script src="{{ asset('js/main.js') }}"></script>

@@ -55,7 +55,7 @@ class ReceptionRepository
 
 //    Userlarni olish palata bo'yicha
     public function getUsers($id){
-        $users = User::where('ward_id', $id)->get();
+        $users = User::where('ward_id', $id)->get(['name', 'arrival_date','departure_date']);
         return $users;
     }
 
@@ -65,7 +65,7 @@ class ReceptionRepository
         $users = User::join('blocks', 'users.block_id', '=', 'blocks.id')
                     ->join('wards', 'users.ward_id', '=', 'wards.id')
                     ->whereRaw('LOWER(users.name) LIKE ?', ['%' . strtolower($name) . '%'])
-                    ->select('users.name', 'users.phone', 'blocks.name as block_name', 'wards.name as ward_name')
+                    ->select('users.name', 'users.phone', 'blocks.name as block_name', 'wards.number as ward_number')
                     ->get();
         return $users;
     }

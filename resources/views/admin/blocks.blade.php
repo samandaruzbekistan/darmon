@@ -62,6 +62,19 @@
                         </div>
                     </div>
                 </form>
+{{--                <form action="{{ route('getFace') }}" method="post">--}}
+{{--                    @csrf--}}
+{{--                    <div class="modal-body">--}}
+{{--                        <div class="mb-3">--}}
+{{--                            <label for="input1" class="form-label">Blog harfi</label>--}}
+{{--                            <input type="text" required name="image" class="form-control" id="input1">--}}
+{{--                        </div>--}}
+{{--                        <div class="modal-footer">--}}
+{{--                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor qilish</button>--}}
+{{--                            <button type="submit" class="btn btn-primary">Saqlash</button>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </form>--}}
             </div>
         </div>
     </div>

@@ -5,15 +5,19 @@ namespace App\Http\Services;
 use App\Models\Block;
 use App\Models\Ward;
 use App\Repositories\AdminRepository;
+use GuzzleHttp\Client;
 
 class AdminService
 {
-    public function __construct(protected AdminRepository $adminRepository)
+    public function __construct(protected AdminRepository $adminRepository, )
     {
     }
 
-    const SUCCESSFUL = 1;
     const UNSUCCESSFUL = 0;
+    const SUCCESSFUL = 1;
+    const FACE_NOT_DETECTED = 2;
+    const API_ERROR = 3;
+    protected string $url_add_face = "https://portal.gspi.uz/Face/Add";
 
     public function adminCheck($login, $password){
         $res = $this->adminRepository->checkAdmin($login, $password);
@@ -47,18 +51,11 @@ class AdminService
     }
 
     public function getWards($block_id,$type,$status){
-        return $this->adminRepository->getWards($block_id, $type,$status);
+        return $this->adminRepository->getWardsWithParams($block_id, $type,$status);
     }
 
 
-//    Add Doctor
-    public function addDoctor($name, $profession, $phone){
-        if ($this->adminRepository->getDoctor($name)) {
-            return self::UNSUCCESSFUL;
-        }
-        $this->adminRepository->addDoctor($name, $profession, $phone);
-        return self::SUCCESSFUL;
-    }
+
 
 
 

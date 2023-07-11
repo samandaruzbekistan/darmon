@@ -15,13 +15,14 @@ return new class extends Migration
     {
         Schema::create('wards', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->integer('number');
+//            $table->string('name');
             $table->unsignedBigInteger('block_id');
             $table->foreign('block_id')->references('id')->on('blocks');
             $table->string('type')->default('standart');
-            $table->integer('max_space');
-            $table->integer('users_count');
-            $table->integer('empty_space');
+            $table->integer('space_count');
+            $table->integer('users_count')->default(0);
+            $table->integer('empty_space')->default(0);
             $table->integer('status')->default(0);
             $table->timestamps();
         });

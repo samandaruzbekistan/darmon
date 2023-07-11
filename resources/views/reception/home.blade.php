@@ -92,9 +92,9 @@
                         </a>
                         <div class="d-flex gap-1">
 {{--                            <div class="pie animate" style="--p:90;--c:lightgreen"> 90%</div>--}}
-                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editBlog">
-                                <i class="bi bi-pencil-fill"></i>
-                            </button>
+{{--                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editBlog">--}}
+{{--                                <i class="bi bi-pencil-fill"></i>--}}
+{{--                            </button>--}}
 {{--                            </button>--}}
 {{--                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReport">--}}
 {{--                                <i class="bi-clipboard"></i>--}}
@@ -186,7 +186,7 @@
                         // Loop through the references and generate HTML
                         for (var i = 0; i < references.length; i++) {
                             referencesHtml += '<p><i class="bi bi-person-fill"></i> F.I.Sh: ' + references[i].name + '</p>';
-                            referencesHtml += '<p><i class="bi bi-house-fill"></i> Joylashuv: ' + references[i].block_name + ',' + references[i].ward_name + '</p>';
+                            referencesHtml += '<p><i class="bi bi-house-fill"></i> Joylashuv: ' + references[i].block_name + ',' + references[i].ward_number + '-palata </p>';
                             referencesHtml += '<p><i class="bi bi-telephone-fill"></i> Telefon: ' + references[i].phone + '</p>';
                             // Add more fields as needed
                             referencesHtml += '<hr>';
