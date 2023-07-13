@@ -27,7 +27,7 @@ class ReceptionController extends Controller
     const UNSUCCESSFUL = 0;
     const SUCCESSFUL = 1;
     const FACE_NOT_DETECTED = 2;
-    const API_ERROR = 3;
+    const SMS_ERROR = 3;
     const NAME_ERROR = 4;
 
 // Receptionni auth qilish
@@ -62,7 +62,7 @@ class ReceptionController extends Controller
             return back();
         }
         $doctors = $this->receptionRepository->getAllDoctors();
-        $wards = $this->receptionService->getWards($id);
+        $wards = $this->receptionRepository->getWards($id);
         return view('reception.wards', ['doctors' => $doctors, 'wards' => $wards, 'regions' => $this->receptionRepository->getRegions()]);
     }
 
@@ -86,11 +86,13 @@ class ReceptionController extends Controller
 //    yangi user qo'shish
     public function addPatient(AddUserRequest $request){
         $user = $this->receptionRepository->getUser($request->name);
-        if (!empty($user)) return back()->with('backData', self::UNSUCCESSFUL);
+        if (count($user) > 0) return back()->with('backData', self::UNSUCCESSFUL);
         $response = $this->receptionRepository->addUser($request);
         $doctor = $this->receptionRepository->getDoctor($request->doctor);
         $block = Block::find($request->block_id);
         $res = $this->smsService->notifyDoctor($request->doctor, $block->letter, $doctor->phone);
+        $jsonEncoded = json_decode($res);
+        if ($jsonEncoded->status != "waiting") return back()->with('backData', self::SMS_ERROR);
         return back()->with('backData', self::SUCCESSFUL);
     }
 

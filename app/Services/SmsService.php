@@ -23,7 +23,7 @@ class SmsService
         if (strlen($number) == 9) {
             $number = "998".$number;
         }
-        $token = Sms::find(1)->token;
+        $token = Sms::find(1);
         $current_date = Carbon::now();
         $token_expiry_date = Carbon::parse($token->updated_at)->addMonth();
         if($current_date->greaterThan($token_expiry_date)){
@@ -55,7 +55,7 @@ class SmsService
                 ]
             ]];
         $request = new \GuzzleHttp\Psr7\Request('POST', 'notify.eskiz.uz/api/message/sms/send', $headers);
-        $res = $user->sendAsync($request,$options1)->wait();
+        $res = $user->sendAsync($request,$options1)->wait()->getBody()->getContents();;
         return $res;
     }
 

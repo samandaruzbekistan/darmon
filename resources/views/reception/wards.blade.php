@@ -10,7 +10,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="{{ asset('img/favicon.ico') }}" rel="icon">
+{{--    <link href="{{ asset('img/favicon.ico') }}" rel="icon">--}}
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -137,24 +137,54 @@
             </div>
         </div>
 
-        @if($errors->any())
-            <div class="modal   " id="errorModal" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 id="message" class="text-danger">Xatolik!</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id="modalReferences">
-                            <ul>
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+        @if(isset($backData))
+            @switch($backData)
+                @case(1)
+                    <div class="modal   " id="errorModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4>Muvaffaqaiyatli!</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-success" id="modalReferences">
+                                    Bemor tizimga kiritildi!
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                    @break
+                @case(2)
+                    <div class="modal   " id="errorModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 id="message" class="text-danger">Xatolik!</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" id="modalReferences">
+                                    Bu ismdagi bemor tizimda mavjud!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @break
+                @case(2)
+                    <div class="modal   " id="errorModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 id="message" class="text-danger">Ogohlantirish!</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" id="modalReferences">
+                                    Bemor tizimga kiritildi. Sms xizmatida muammo bor
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @break
+            @endswitch
         @endif
 
         <div class="modal  fade " id="success" tabindex="-1">

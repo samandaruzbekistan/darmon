@@ -64,14 +64,14 @@ class ReceptionRepository
 
         $block = Block::find($data->block_id);
         $block->users_count = $block->users_count + 1;
-        $block->filled_prosent = ($block->users_count + 1)*100/$block->space_count;
+        $block->filled_prosent = ($block->users_count)*100/$block->space_count;
         $block->save();
 
         $ward = Ward::find($data->ward_id);
         if ($ward->space_count == ($ward->users_count + 1)) $ward->status = 2;
         if ($ward->status == 0) $ward->status = 1;
         $ward->users_count = $ward->users_count + 1;
-        $ward->empty_space = $ward->empty_space - 1;
+//        $ward->empty_space = $ward->empty_space - 1;
         $ward->save();
 
         $rowsToInsert = [];
@@ -148,7 +148,7 @@ class ReceptionRepository
 
 //    Bitta userni olish
     public function getUser($name){
-        return User::where('name', $name);
+        return User::where('name', $name)->get();
     }
 
 
@@ -183,7 +183,7 @@ class ReceptionRepository
 
 //    Get doctor by name
     public function getDoctor($name){
-        return Doctor::where('name', $name);
+        return Doctor::where('name', $name)->first();
     }
 
 

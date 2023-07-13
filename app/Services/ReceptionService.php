@@ -29,6 +29,8 @@ class ReceptionService
         return $this->receptionRepository->getBlocks();
     }
 
+
+
     public function logout(){
         session()->flush();
     }
