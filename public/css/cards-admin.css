@@ -1,0 +1,54 @@
+.card {
+    border: none;
+    border-radius: 10px;
+    margin-top: 5%;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+
+.c-details p {
+    font-weight: 500;
+    color: #000;
+}
+
+.room-name, .room-type{
+    color: #000;
+    font-weight: 500;
+    line-height: 14px;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    background-color: #eee;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.icon p{
+    margin-top: 35%;
+}
+
+.progress {
+    /*height: 10px;*/
+    border-radius: 10px
+}
+
+.text1 {
+    font-size: 14px;
+    font-weight: 600
+}
+
+.text2 {
+    color: #a5aec0
+}
+
+.full{
+    background-color: #c00404;
+}
+
+.half{
+    background-color: #ffc400;
+}
