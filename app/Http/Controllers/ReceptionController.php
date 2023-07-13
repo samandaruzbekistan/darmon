@@ -9,27 +9,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddUserRequest;
 use App\Http\Requests\ReceptionAuthRequest;
-use App\Http\Services\ReceptionService;
+use App\Models\Block;
 use App\Repositories\ReceptionRepository;
+use App\Services\ReceptionService;
+use App\Services\SmsService;
 use Illuminate\Http\Request;
 
 
 class ReceptionController extends Controller
 {
-    public function __construct(protected ReceptionService $receptionService, protected ReceptionRepository $receptionRepository)
+    public function __construct(protected ReceptionService $receptionService, protected ReceptionRepository $receptionRepository, protected SmsService $smsService)
     {
     }
 
+    const UNSUCCESSFUL = 0;
+    const SUCCESSFUL = 1;
+    const FACE_NOT_DETECTED = 2;
+    const API_ERROR = 3;
+    const NAME_ERROR = 4;
+
 // Receptionni auth qilish
     public function auth(ReceptionAuthRequest $request){
-        $result = $this->receptionService->checkReception($request->login, $request->password);
-        if($result == 1){
+        $res = $this->receptionRepository->getReception($request->login, $request->password);
+        if (count($res) != 0){
+            session()->put('reception',$res[0]->id);
+            session()->put('reception_name', $res[0]->name);
             return redirect(route('reception_home'));
         }
         else{
             return redirect(route('reception_login_page'));
-
         }
     }
 
@@ -57,6 +67,9 @@ class ReceptionController extends Controller
     }
 
 
+
+
+
 //    Palata userlarini olish
     public function getUsers($id){
         $users = $this->receptionRepository->getUsers($id);
@@ -64,12 +77,22 @@ class ReceptionController extends Controller
         return response()->json([$users, $ward]);
     }
 
-//    userlarini qidirish
+//    userlarini qidirish name boyicha
     public function searchUsers(Request $request){
         $users = $this->receptionRepository->getUsersByName($request->name);
         return response()->json($users);
     }
 
+//    yangi user qo'shish
+    public function addPatient(AddUserRequest $request){
+        $user = $this->receptionRepository->getUser($request->name);
+        if (!empty($user)) return back()->with('backData', self::UNSUCCESSFUL);
+        $response = $this->receptionRepository->addUser($request);
+        $doctor = $this->receptionRepository->getDoctor($request->doctor);
+        $block = Block::find($request->block_id);
+        $res = $this->smsService->notifyDoctor($request->doctor, $block->letter, $doctor->phone);
+        return back()->with('backData', self::SUCCESSFUL);
+    }
 
 
 

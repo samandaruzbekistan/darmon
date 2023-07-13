@@ -56,22 +56,13 @@
     <!-- Content Start -->
     <div class="content">
         <!-- Navbar Start -->
-        <nav
-            class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0"
-        >
+        <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
             <form class="d-none d-md-flex ms-4">
-                <input
-                    class="form-control border-0"
-                    type="search"
-                    placeholder="Search"
-                />
+                <input class="form-control border-0" type="search" placeholder="Search">
             </form>
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item">
-                    <a
-                        href="{{ route('reception_home') }}"
-                        class="nav-link active"
-                    >
+                    <a href="{{ route('reception_home') }}" class="nav-link active">
                         <i class="fa fa-hospital me-lg-2"></i>
                         <span class="d-none d-lg-inline-flex">Bloglar</span>
                     </a>
@@ -88,7 +79,7 @@
         <div class="container-fluid pt-4 px-4">
             <div class="row cards-container">
                 @foreach($wards as $ward)
-                    <div class="col-2 btn-card" id="{{ $ward->id }}">
+                    <div class="col-2 btn-card" id="{{ $ward->id }}" data-action="{{ $ward->block_id }}" style="cursor: pointer">
                             <div class="card p-3 mb-2" >
                                 <div class="d-flex justify-content-between">
                                     <div class="d-flex flex-row align-items-center">
@@ -99,13 +90,13 @@
                                             <p class="mb-0">Palata</p>
                                         </div>
                                     </div>
-                                    <div class="addpatient" >
-                                        <i class="bi-plus-square-dotted addpatient-btn" id="{{ $ward->id }}" data-bs-toggle="modal"  data-bs-target="#addPatient"></i>
+                                    <div class="col-3" >
+                                        <img src="{{ asset('logo1.png') }}" class="img-fluid">
                                     </div>
                                 </div>
                                 <div class="mt-4">
                                     <p class="room-name">Turi: {{ $ward->type }}</p>
-                                    <p class="room-type">Bo'sh joy: {{ $ward->empty_space }} ta</p>
+                                    <p class="room-type">Bo'sh joy: {{ $ward->space_count - $ward->users_count }} ta</p>
                                     <div class="mt-4">
                                         @if($ward->users_count / $ward->space_count * 100 == 0)
                                             <div class="progress">
@@ -131,21 +122,6 @@
         <!-- Button End -->
 
 
-{{--        <div class="modal fade h-50" id="showPatients" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false" style="display: none">--}}
-{{--            <div class="modal-dialog">--}}
-{{--                <div class="modal-content">--}}
-{{--                    <div class="modal-header">--}}
-{{--                        <h4>Palatadagi bemorlar</h4>--}}
-{{--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--}}
-{{--                    </div>--}}
-{{--                    <div class="modal-body overflow-auto" id="modalReferences">--}}
-
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-
-        {{-- Show patients modal --}}
         <div class="modal fade" id="showPatients" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -157,14 +133,43 @@
                     <div class="modal-body" id="modalReferences">
 
                     </div>
-                    <div class="modal-footer">
-
-                    </div>
                 </div>
             </div>
         </div>
 
+        @if($errors->any())
+            <div class="modal   " id="errorModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 id="message" class="text-danger">Xatolik!</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="modalReferences">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
 
+        <div class="modal  fade " id="success" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 id="message" class="text-success">Muvaffaqiyatli!</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modalReferences">
+                        Bemor bazaga kiritildi!
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- ADD PATIENT MODAL -->
         <div class="modal fade" id="addPatient" tabindex="-1">
             <div class="modal-dialog">
@@ -174,67 +179,77 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="createPatientForm">
+                        <form id="createPatientForm" action="{{ route('add-patient') }}" method="post">
+                            @csrf
                             <div class="mb-3">
-                                <label for="namePatient" class="form-label">F.I.SH</label>
-                                <input type="text" class="form-control" id="namePatient">
+                                <label for="namePatient" class="form-label">F.I.SH</label> <sup class="text-danger">*</sup>
+                                <input required name="name" type="text" class="form-control" id="namePatient">
                             </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">Telefon raqami</label>
-                                <input type="text" class="form-control" id="phone" data-maska="+998 (##) ###-##-##">
+                            <div class="row">
+                                <div class="mb-3 col-sm-6">
+                                    <label for="phone" class="form-label">Telefon raqami</label> <sup class="text-danger">*</sup>
+                                    <input name="phone" required type="number" class="form-control" id="phone" data-maska="+998 (##) ###-##-##">
+                                </div>
+                                <div class="mb-3 col-sm-6">
+                                    <label for="birthdate" class="form-label">Tug'ilgan sanasi</label> <sup class="text-danger">*</sup>
+                                    <input name="birth_date" required type="date" class="form-control" id="birthdate">
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="birthdate" class="form-label">Tug'ilgan sanasi</label>
-                                <input type="date" class="form-control" id="birthdate">
-                            </div>
-                            <div class="mb-3">
-                                <label for="region" class="form-label">Viloyat</label>
-                                <select id="region" class="form-select" name="region">
-                                    <option disabled selected>Tanlang</option>
-                                    @foreach($regions as $region)
-                                        <option value="{{ $region->id }}">{{ $region->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="district" class="form-label">Tuman</label>
-                                <select id="district" class="form-select">
-                                    <option disabled selected>Tanlang</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="quarter" class="form-label">Mahalla</label>
-                                <select id="quarter" class="form-select">
-                                    <option disabled selected>Tanlang</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="illness" class="form-label">Kasallik</label>
-                               <textarea name="disease" class="form-control" rows="2"></textarea>
-                            </div>
-                            <input type="text" name="ward_id" value="0" id="modalIdInput"/>
-                            <div class="mb-3">
-                                <label for="doctor" class="form-label">Shifokor</label>
-                                <select id="doctor" name="doctor" class="form-select">
-                                    <option disabled selected>Tanlang</option>
-                                    @foreach($doctors as $doctor)
-                                        <option>{{ $doctor->name }}</option>
+                            <div class="row">
+                                <div class="mb-3 col-sm-4">
+                                    <label for="region" class="form-label">Viloyat</label> <sup class="text-danger">*</sup>
+                                    <select id="region" required class="form-select" name="region_id">
+                                        <option disabled selected>Tanlang</option>
+                                        @foreach($regions as $region)
+                                            <option value="{{ $region->id }}">{{ $region->name }}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                                <div class="mb-3 col-sm-4">
+                                    <label for="district" class="form-label">Tuman</label> <sup class="text-danger">*</sup>
+                                    <select id="district" name="district_id" class="form-select">
+                                        <option disabled selected>Tanlang</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-sm-4">
+                                    <label for="quarter" class="form-label">Mahalla</label> <sup class="text-danger">*</sup>
+                                    <select id="quarter" name="quarter_id" class="form-select">
+                                        <option disabled selected>Tanlang</option>
+                                    </select>
+                                </div>
                             </div>
+
                             <div class="mb-3">
-                                <label for="arriveDate" class="form-label">Kelish sanasi</label>
-                                <input type="date" class="form-control" id="arriveDate">
+                                <label for="illness" class="form-label">Kasallik</label>
+                               <input name="disease" type="text" class="form-control" value=" ">
                             </div>
-                            <div class="mb-3">
-                                <label for="leaveDate" class="form-label">Ketish sanasi</label>
-                                <input type="date" class="form-control" id="leaveDate">
+                            <input type="hidden" name="ward_id" value="0" id="ward_id"/>
+                            <input type="hidden" name="block_id" value="0" id="block_id"/>
+                            <div class="row">
+                                <div class="mb-3 col-sm-4">
+                                    <label for="doctor" class="form-label">Shifokor</label> <sup class="text-danger">*</sup>
+                                    <select id="doctor" required name="doctor" class="form-select">
+                                        <option disabled selected>Tanlang</option>
+                                        @foreach($doctors as $doctor)
+                                            <option>{{ $doctor->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-sm-4">
+                                    <label for="arriveDate" class="form-label">Kelish sanasi</label> <sup class="text-danger">*</sup>
+                                    <input type="date" name="arrival_date" required class="form-control" id="arriveDate">
+                                </div>
+                                <div class="mb-3 col-sm-4">
+                                    <label for="leaveDate" class="form-label">Ketish sanasi</label> <sup class="text-danger">*</sup>
+                                    <input type="date" name="departure_date" required class="form-control" id="leaveDate">
+                                </div>
                             </div>
+                            <input type="submit" id="submit" style="display: none">
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor qilish</button>
-                        <button type="button" class="btn btn-primary" onclick="addPatient()">Saqlash</button>
+                        <button type="submit" class="btn btn-primary" onclick="submitBtn()">Saqlash</button>
                     </div>
                 </div>
             </div>
@@ -266,93 +281,116 @@
 
 
     <script>
-         $(document).ready(function() {
-            $('#phone').inputmask('(99) 999-99-99');
+        function submitBtn() {
+            document.getElementById('submit').click();
+        }
+
+        $(window).on('load', function() {
+            $('#errorModal').modal('show');
+        });
+
+        @if((session()->has('backData')))
+            @if(session('backData') == 1)
+            $("#success").show();
+            @endif
+        @endif
+
+         $(document).on('change', '#region', function() {
+             let selectedId = $(this).val();
+             let firstOption = $('#district option:first');
+
+             $("#district").empty();
+             $('#district').append('<option value="" disabled selected>Tanlash...</option>');
+             $.ajax({
+                 url: '{{ route('reception_get_districts') }}/' + selectedId,
+                 method: 'GET',
+                 success: function(data) {
+                     $("#district").empty();
+                     $('#district').append('<option value="" disabled selected>Tanlash...</option>');
+                     $.each(data, function(key, value){
+                         $('#district').append('<option value="' + value.id+ '">' + value.name + '</option>');
+                     });
+                 }
+             });
+         });
+
+         $(document).on('change', '#district', function() {
+             let selectedId = $(this).val();
+             let firstOption = $('#quarter option:first');
+
+             $("#quarter").empty();
+             $('#quarter').append('<option value="" disabled selected>Tanlash...</option>');
+             $.ajax({
+                 url: '{{ route('reception_get_quarters') }}/' + selectedId,
+                 method: 'GET',
+                 success: function(data) {
+                     $("#quarter").empty();
+                     $('#quarter').append('<option value="" disabled selected>Tanlash...</option>');
+                     $.each(data, function(key, value){
+                         $('#quarter').append('<option value="' + value.id+ '">' + value.name + '</option>');
+                     });
+                 }
+             });
+         });
+
+         $(document).on('click', '#add-patient', function() {
+             $('#addPatient').modal('show'); // Set the ID as the value of the hidden input in the modal
+             $('#showPatients').modal('hide');
+         });
+
+         $(document).on('click', ".btn-card", function() {
+             $('#showPatients').modal('show');
+             let cardID = $(this).attr('id');
+             let blockID = $(this).attr('data-action');
+             $('#ward_id').val(cardID);
+             $('#block_id').val(blockID);
+             // Display the loading indicator
+             $.ajax({
+                 url: '{{ route('reception_get_users') }}/' + cardID, // Replace with your backend route for handling search
+                 method: 'GET',
+                 success: function(response) {
+                     var references = response; // Assign the response directly
+                     var referencesHtml = '';
+                     if (references[1].status === 2){
+                         $('#add-patient').hide();
+                         $("#message").show();
+                     }
+                     else if((references[1].status === 0)){
+                         $('#add-patient').show();
+                         $("#message").hide();
+                         referencesHtml += "<p class='text-success'>Palatada bemorlar mavjud emas!</p>";
+                     }
+                     else if(references[1].status === 1){
+                         $('#add-patient').show();
+                         $("#message").hide();
+                     }
+                     // Loop through the references and generate HTML
+                     for (var i = 0; i < references[0].length; i++) {
+                         referencesHtml += '<p><i class="bi bi-person-fill"></i> F.I.Sh: ' + references[0][i].name + '</p>';
+                         referencesHtml += '<p><i class="bi bi-building-add"></i> Kelgan: ' + references[0][i].arrival_date + '</p>';
+                         referencesHtml += '<p><i class="bi bi-building-dash"></i> Telefon: ' + references[0][i].departure_date + '</p>';
+                         // Add more fields as needed
+                         referencesHtml += '<hr>';
+                     }
+
+                     // Display the references in the modal
+                     $('#modalReferences').html(referencesHtml);
+
+                 },
+                 error: function() {
+
+                 }
+             });
+
          });
 
         function logout() {
             window.location="{{ route('logout_reception') }}";
         }
 
-        $(document).on('click', '.addpatient-btn', function() {
-            let cardID = $(this).attr('id');
-            $('#modalIdInput').val(cardID); // Set the ID as the value of the hidden input in the modal
-            $('#showPatients').modal('hide');
-        });
-
-        $(document).on('click', ".btn-card", function() {
-            $('#showPatients').modal('show');
-            let cardID = $(this).attr('id');
-            // Display the loading indicator
-            $.ajax({
-                url: '{{ route('reception_get_users') }}/' + cardID, // Replace with your backend route for handling search
-                method: 'GET',
-                success: function(response) {
-                    var references = response; // Assign the response directly
-                    var referencesHtml = '';
-                    if (references[1].status === 2){
-                        $('#add-patient').hide();
-                        $("#message").show();
-                    }
-                    // Loop through the references and generate HTML
-                    for (var i = 0; i < references[0].length; i++) {
-                        referencesHtml += '<p><i class="bi bi-person-fill"></i> F.I.Sh: ' + references[0][i].name + '</p>';
-                        referencesHtml += '<p><i class="bi bi-building-add"></i> Kelgan: ' + references[0][i].arrival_date + '</p>';
-                        referencesHtml += '<p><i class="bi bi-building-dash"></i> Telefon: ' + references[0][i].departure_date + '</p>';
-                        // Add more fields as needed
-                        referencesHtml += '<hr>';
-                    }
-
-                    // Display the references in the modal
-                    $('#modalReferences').html(referencesHtml);
-
-                },
-                error: function() {
-
-                }
-            });
-
-        });
 
 
 
-        $(document).on('change', '#region', function() {
-            let selectedId = $(this).val();
-            let firstOption = $('#district option:first');
-
-            $("#district").empty();
-            $('#district').append('<option value="" disabled selected>Tanlash...</option>');
-            $.ajax({
-                url: '{{ route('reception_get_districts') }}/' + selectedId,
-                method: 'GET',
-                success: function(data) {
-                    $("#district").empty();
-                    $('#district').append('<option value="" disabled selected>Tanlash...</option>');
-                    $.each(data, function(key, value){
-                        $('#district').append('<option value="' + value.id+ '">' + value.name + '</option>');
-                    });
-                }
-            });
-        });
-
-        $(document).on('change', '#district', function() {
-            let selectedId = $(this).val();
-            let firstOption = $('#quarter option:first');
-
-            $("#quarter").empty();
-            $('#quarter').append('<option value="" disabled selected>Tanlash...</option>');
-            $.ajax({
-                url: '{{ route('reception_get_quarters') }}/' + selectedId,
-                method: 'GET',
-                success: function(data) {
-                    $("#quarter").empty();
-                    $('#quarter').append('<option value="" disabled selected>Tanlash...</option>');
-                    $.each(data, function(key, value){
-                        $('#quarter').append('<option value="' + value.id+ '">' + value.name + '</option>');
-                    });
-                }
-            });
-        });
 
 
 

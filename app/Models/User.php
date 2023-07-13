@@ -9,6 +9,22 @@ class User extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'birth_date',
+        'phone',
+        'region_id',
+        'district_id',
+        'quarter_id',
+        'ward_id',
+        'block_id',
+        'disease',
+        'doctor',
+        'arrival_date',
+        'departure_date',
+        'reception_id',
+    ];
+
     protected $table = "users";
 
     public function region(){

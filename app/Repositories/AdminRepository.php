@@ -66,16 +66,18 @@ class AdminRepository
 
 //    Add war
     public function add_ward($data){
-        $block = Block::find($data->block_id);
-        $block->increment('ward_count');
-        $block->increment('space_count', $data->space_count);
-
         Ward::create([
             'number' => $data->number,
             'type' => $data->type,
             'block_id' => $data->block_id,
             'space_count' => $data->space_count,
         ]);
+
+        $block = Block::find($data->block_id);
+        $block->increment('ward_count');
+        $block->filled_prosent = ($block->users_count)*100/($block->space_count+$data->space_count);
+        $block->increment('space_count', $data->space_count);
+        $block->save();
     }
 
 //    Get all wards by params

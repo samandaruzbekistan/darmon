@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReceptionController;
+use App\Http\Controllers\SmsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,12 +57,14 @@ Route::prefix('reception')->group(function () {
         Route::get('home', [ReceptionController::class, 'reception_home'])->name('reception_home');
         Route::get('logout-reception', [ReceptionController::class, 'logout_reception'])->name('logout_reception');
         Route::get('show/{id?}', [ReceptionController::class, 'showWard'])->name('showWard');
+        Route::get('sms', [SmsController::class, 'getToken'])->name('getToken');
 
 
         // Userlar bilan ishlash
         Route::get('get-users/{id?}', [ReceptionController::class, 'getUsers'])->name('reception_get_users');
         Route::get('search-users', [ReceptionController::class, 'searchUsers'])->name('reception_search_users');
         Route::get('get-all-doctors', [ReceptionController::class, 'getDoctors'])->name('reception_get_doctors');
+            Route::post('add-patient', [ReceptionController::class, 'addPatient'])->name('add-patient');
 
 
         // Regionlar bilan ishlash

@@ -29,7 +29,8 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
-
+    'email' => env('EMAIL', 'your@mail.com'),
+    'password' => env('PASSWORD', 'your_password'),
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
