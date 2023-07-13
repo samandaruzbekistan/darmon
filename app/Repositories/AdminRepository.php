@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Block;
 use App\Models\Doctor;
 use App\Models\Nurse;
+use App\Models\Process;
 use App\Models\Reception;
 use App\Models\Ward;
 use http\Env\Request;
@@ -51,6 +52,11 @@ class AdminRepository
         $block->letter = $letter;
         $block->name = $name;
         $block->save();
+    }
+
+//    Get day process
+    public function getDayProcess(){
+        $data = Process::where('date', );
     }
 
 

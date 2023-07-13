@@ -15,6 +15,7 @@ use App\Models\Block;
 use App\Repositories\ReceptionRepository;
 use App\Services\ReceptionService;
 use App\Services\SmsService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 
@@ -28,7 +29,7 @@ class ReceptionController extends Controller
     const SUCCESSFUL = 1;
     const FACE_NOT_DETECTED = 2;
     const SMS_ERROR = 3;
-    const NAME_ERROR = 4;
+    const DATE_ERROR = 4;
 
 // Receptionni auth qilish
     public function auth(ReceptionAuthRequest $request){
@@ -36,6 +37,7 @@ class ReceptionController extends Controller
         if (count($res) != 0){
             session()->put('reception',$res[0]->id);
             session()->put('reception_name', $res[0]->name);
+            session()->put('reception_id', $res[0]->id);
             return redirect(route('reception_home'));
         }
         else{
@@ -87,6 +89,7 @@ class ReceptionController extends Controller
     public function addPatient(AddUserRequest $request){
         $user = $this->receptionRepository->getUser($request->name);
         if (count($user) > 0) return back()->with('backData', self::UNSUCCESSFUL);
+        if (($request->arrival_date < Carbon::now()) || ($request->arrival_date > $request->departure_date)) return back()->with('backData', self::DATE_ERROR);
         $response = $this->receptionRepository->addUser($request);
         $doctor = $this->receptionRepository->getDoctor($request->doctor);
         $block = Block::find($request->block_id);

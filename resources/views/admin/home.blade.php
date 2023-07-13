@@ -76,7 +76,7 @@
                         <thead>
                         <tr class="text-dark">
                             <th scope="col">
-                                <input class="form-check-input" type="checkbox" />
+                                Bloklar
                             </th>
                             <th scope="col">Date</th>
                             <th scope="col">Invoice</th>

@@ -137,10 +137,10 @@
             </div>
         </div>
 
-        @if(isset($backData))
-            @switch($backData)
+        @if(session()->has('backData'))
+            @switch(session('backData'))
                 @case(1)
-                    <div class="modal   " id="errorModal" tabindex="-1">
+                    <div class="modal" id="errorModal" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -154,7 +154,7 @@
                         </div>
                     </div>
                     @break
-                @case(2)
+                @case(0)
                     <div class="modal   " id="errorModal" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -169,7 +169,7 @@
                         </div>
                     </div>
                     @break
-                @case(2)
+                @case(3)
                     <div class="modal   " id="errorModal" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -184,9 +184,23 @@
                         </div>
                     </div>
                     @break
+                @case(4)
+                    <div class="modal   " id="errorModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 id="message" class="text-danger">Xatolik!</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" id="modalReferences">
+                                    Sanalar noto'g'ri kiritilgan
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @break
             @endswitch
         @endif
-
         <div class="modal  fade " id="success" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -267,11 +281,11 @@
                                 </div>
                                 <div class="mb-3 col-sm-4">
                                     <label for="arriveDate" class="form-label">Kelish sanasi</label> <sup class="text-danger">*</sup>
-                                    <input type="date" name="arrival_date" required class="form-control" id="arriveDate">
+                                    <input type="date" min="{{ date('Y-m-d') }}" max="{{ date('Y-m-d', strtotime('+30 days')) }}" name="arrival_date" required class="form-control" id="arriveDate">
                                 </div>
                                 <div class="mb-3 col-sm-4">
                                     <label for="leaveDate" class="form-label">Ketish sanasi</label> <sup class="text-danger">*</sup>
-                                    <input type="date" name="departure_date" required class="form-control" id="leaveDate">
+                                    <input type="date" min="{{ date('Y-m-d') }}" max="{{ date('Y-m-d', strtotime('+30 days')) }}" name="departure_date" required class="form-control" id="leaveDate">
                                 </div>
                             </div>
                             <input type="submit" id="submit" style="display: none">
@@ -319,11 +333,7 @@
             $('#errorModal').modal('show');
         });
 
-        @if((session()->has('backData')))
-            @if(session('backData') == 1)
-            $("#success").show();
-            @endif
-        @endif
+
 
          $(document).on('change', '#region', function() {
              let selectedId = $(this).val();
