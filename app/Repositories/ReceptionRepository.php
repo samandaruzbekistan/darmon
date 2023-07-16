@@ -59,6 +59,7 @@ class ReceptionRepository
         $user = new User($data->all());
         $user->disease = $data->disease ?? null;
         $user->reception_id = session('reception_id');
+        $user->reception_name = session('reception_name');
         $user->save();
         $userID = $user->id;
 
@@ -85,6 +86,8 @@ class ReceptionRepository
                 'user_name' => $data->name,
                 'doctor' => $data->doctor,
                 'date' => $currentDate,
+                'block_letter' => $block->letter,
+                'ward_number' => $ward->number,
                 'type' => 1, // day
                 'phone' => $data->phone,
                 'status' => 0, // or any default status
@@ -103,6 +106,8 @@ class ReceptionRepository
                 'user_name' => $data->name,
                 'doctor' => $data->doctor,
                 'date' => $currentDate2,
+                'block_letter' => $block->letter,
+                'ward_number' => $ward->number,
                 'type' => 2, // day
                 'phone' => $data->phone,
                 'status' => 0, // or any default status

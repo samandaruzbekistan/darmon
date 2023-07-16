@@ -1,6 +1,6 @@
 @extends('admin.header')
 
-@section('reception')
+@section('nurse')
     active
 @endsection
 @section('section')
@@ -9,10 +9,10 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Yangi shifokor qo'shish</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Yangi hamshira qo'shish</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('addReception') }}" method="post">
+                <form action="{{ route('addNurse') }}" method="post">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
@@ -51,7 +51,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">Yangi shifokor qo'shish</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('updateReception') }}" method="post">
+                <form action="{{ route('updateNurse') }}" method="post">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
@@ -98,31 +98,31 @@
             </div>
         @endif
 
-            @if(session('result') == 1)
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>Muvaffaqiyatli!</strong> Xodim tizimga qo'shildi.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @elseif(session('result') == 5)
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Xatolik!</strong> Loginni boshqa kiriting.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @elseif(session('result') == 3)
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Xatolik!</strong> API da nosozlik.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @elseif(session('result') == 4)
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Xatolik!</strong> Bunday ismli shifokor mavjud.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
+        @if(session('result') == 1)
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Muvaffaqiyatli!</strong> Xodim tizimga qo'shildi.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @elseif(session('result') == 5)
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Xatolik!</strong> Loginni boshqa kiriting.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @elseif(session('result') == 3)
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Xatolik!</strong> API da nosozlik.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @elseif(session('result') == 4)
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Xatolik!</strong> Bunday ismli shifokor mavjud.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="bg-light text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
-                <h6 class="mb-0">Qabulxona xodimlari</h6>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDoctor"><span>+</span> Xodim qo'shish</button>
+                <h6 class="mb-0">Hamshiralar</h6>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDoctor"><span>+</span> Hamshira qo'shish</button>
             </div>
             <div class="table-responsive">
                 <table
@@ -141,7 +141,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($receptions as $id => $item)
+                    @foreach($nurses as $id => $item)
                         <tr>
                             <td>{{ $id+1 }}</td>
                             <td>{{ $item->name }}</td>
@@ -181,7 +181,7 @@
         $(document).on('click', '.btn-edit', function() {
             let id = $(this).attr('id');
             $.ajax({
-                url: '{{ route('editReception') }}/' + id, // Replace with your backend route for handling search
+                url: '{{ route('editNurse') }}/' + id, // Replace with your backend route for handling search
                 method: 'GET',
                 success: function(response) {
                     $('#phone').val(response.phone);

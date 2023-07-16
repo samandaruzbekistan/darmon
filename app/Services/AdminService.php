@@ -39,8 +39,8 @@ class AdminService
         $users = $this->adminRepository->getBlockUsersCount();
         $empty_spaces = $this->adminRepository->getAllEmptySpaces();
         $doctors = $this->adminRepository->getDoctorsCount();
-
-        return ['users' => $users, 'empty_spaces' => $empty_spaces->empty_spaces, 'doctors' => $doctors];
+        $day = $this->adminRepository->getDayProcess();
+        return ['users' => $users, 'empty_spaces' => $empty_spaces->empty_spaces, 'doctors' => $doctors, 'day' => $day];
     }
 
     public function getBlocks(){

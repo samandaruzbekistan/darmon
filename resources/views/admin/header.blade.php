@@ -52,19 +52,13 @@
             </a>
             <div class="navbar-nav w-100">
                 <a href="{{ route('admin_home') }}" class="nav-item nav-link @yield('home')"><i class="fa fa-tachometer-alt me-2"></i>Bosh menu</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a>
-                    <div class="dropdown-menu bg-transparent border-0">
-                        <a href="{{ route('doctors') }}" class="dropdown-item">Shifokorlar</a>
-                        <a href="typography.html" class="dropdown-item">Typography</a>
-                        <a href="element.html" class="dropdown-item">Other Elements</a>
-                    </div>
-                </div>
+
                 <a href="{{ route('admin_blocks') }}" class="nav-item nav-link  @yield('blocks')"><i class="fa fa-table me-2"></i>Bloklar</a>
                 <a href="{{ route('admin_wards') }}" class="nav-item nav-link  @yield('wards')"><i class="fas fa-th-large me-2"></i>Palatalar</a>
                 <a href="{{ route('doctors') }}" class="nav-item nav-link @yield('doctors')"><i class="fas fa-user-md me-2"></i>Shifokorlar</a>
-                <a href="{{ route('receptions') }}" class="nav-item nav-link"><i class="fas fa-sign-out-alt me-2"></i>Qabulxona</a>
-                <a href="{{ route('nurses') }}" class="nav-item nav-link"><i class="fas fa-notes-medical me-2"></i>Hamshiralar</a>
+                <a href="{{ route('receptions') }}" class="nav-item nav-link @yield('reception')"><i class="fas fa-sign-out-alt me-2"></i>Qabulxona</a>
+                <a href="{{ route('nurses') }}" class="nav-item nav-link @yield('nurse')"><i class="fas fa-notes-medical me-2"></i>Hamshiralar</a>
+                <a href="{{ route('nurses') }}" class="nav-item nav-link @yield('sms')"><i class="fas fa-sms me-2"></i>SMS xizmati</a>
 
                 <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
             </div>

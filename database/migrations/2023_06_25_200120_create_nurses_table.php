@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('nurses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('photo');
+            $table->string('phone');
+            $table->string('login');
+            $table->string('password');
             $table->timestamps();
         });
     }

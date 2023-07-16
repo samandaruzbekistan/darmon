@@ -18,7 +18,7 @@ class SmsService
         $this->password = Config::get('app.password', 'password');
     }
 
-    public function notifyDoctor($doctor_name, $address, $number1){
+    public function notifyDoctor($doctor_name, $address, $number1, $ward){
         $number = preg_replace('/\D/', '', $number1);
         if (strlen($number) == 9) {
             $number = "998".$number;
@@ -43,7 +43,7 @@ class SmsService
                 ],
                 [
                     'name' => 'message',
-                    'contents' => "{$doctor_name} sizga yangi bemor keldi. Joylashuv: {$address} blok"
+                    'contents' => "Hurmatli {$doctor_name} sizga yangi bemor keldi. Joylashuv: {$address} blok, {$ward} palata"
                 ],
                 [
                     'name' => 'from',

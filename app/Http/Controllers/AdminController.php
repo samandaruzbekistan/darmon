@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\Blocks;
 use App\Http\Requests\AdminRequest;
 use App\Services\AdminService;
 use App\Services\FaceDetectionService;
@@ -9,6 +10,8 @@ use App\Repositories\AdminRepository;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Maatwebsite\Excel\Facades\Excel;
+use Termwind\Html\InheritStyles;
 
 class AdminController extends Controller
 {
@@ -23,6 +26,7 @@ class AdminController extends Controller
     const FACE_NOT_DETECTED = 2;
     const API_ERROR = 3;
     const NAME_ERROR = 4;
+    const LOGIN_ERROR = 5;
 
 
 
@@ -53,11 +57,13 @@ class AdminController extends Controller
     }
 
 
+
+
+
 //    Bloklar royhati
     public function blocks(){
         return view('admin.blocks', ['blocks' => $this->adminService->getBlocks()]);
     }
-
 
 //    Block qo'shish
     public function add_block(Request $request){
@@ -69,8 +75,19 @@ class AdminController extends Controller
         return back();
     }
 
-//    Delete block
-//    pub
+//    Export excel
+    public function block_export()
+    {
+        return Excel::download(new Blocks, 'blocks.xlsx');
+    }
+
+
+
+
+
+
+
+
 
 
 
@@ -181,15 +198,92 @@ class AdminController extends Controller
 
 
 
-//    Hamshira va receptionlar funksiyalari
-
-    public function nurses(){
-        return view('admin.nurses', ['nurses' => $this->adminRepository->getNurses()]);
-    }
+//    Receptionlar funksiyalari
 
     public function receptions(){
         return view('admin.receptions', ['receptions' => $this->adminRepository->getReceptions()]);
     }
 
+    // Add reception
+    public function add_reception(Request $request){
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'login' => 'required|string',
+            'phone' => 'required|numeric|digits:12',
+            'password' => 'required|string',
+        ]);
+        if (!empty($this->adminRepository->getReception($request->login))) {
+            return back()->with('error', self::LOGIN_ERROR);
+        }
+
+        $this->adminRepository->addReception($request->input());
+        return back()->with('result', self::SUCCESSFUL);
+    }
+
+//    Delete reception
+    public function deleteReception($id){
+        $this->adminRepository->deleteReception($id);
+        return back();
+    }
+
+//    Edit reception
+    public function editReception($login){
+        return $this->adminRepository->getReception($login);
+    }
+
+//    Update reception
+    public function updateReception(Request $request){
+        $request->validate([
+            'login' => 'required|string',
+            'phone' => 'required|numeric|digits:12',
+            'password' => 'required|string',
+        ]);
+        $this->adminRepository->updateReception($request->input());
+        return back();
+    }
+
+
+
+    public function nurses(){
+        return view('admin.nurses', ['nurses' => $this->adminRepository->getNurses()]);
+    }
+
+    // Add nurse
+    public function add_nurse(Request $request){
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'login' => 'required|string',
+            'phone' => 'required|numeric|digits:12',
+            'password' => 'required|string',
+        ]);
+        if (!empty($this->adminRepository->getNurse($request->login))) {
+            return back()->with('error', self::LOGIN_ERROR);
+        }
+
+        $this->adminRepository->addNurse($request->input());
+        return back()->with('result', self::SUCCESSFUL);
+    }
+
+//    Delete reception
+    public function deleteNurse($id){
+        $this->adminRepository->deleteNurse($id);
+        return back();
+    }
+
+//    Edit reception
+    public function editNurse($login){
+        return $this->adminRepository->getNurse($login);
+    }
+
+//    Update reception
+    public function updateNurse(Request $request){
+        $request->validate([
+            'login' => 'required|string',
+            'phone' => 'required|numeric|digits:12',
+            'password' => 'required|string',
+        ]);
+        $this->adminRepository->updateNurse($request->input());
+        return back();
+    }
 
 }

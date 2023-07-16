@@ -11,6 +11,13 @@ class Reception extends Model
 
     protected $table = 'receptions';
 
+    protected $fillable = [
+        'name',
+        'phone',
+        'login',
+        'password',
+    ];
+
     public function user(){
         return $this->hasMany(User::class);
     }

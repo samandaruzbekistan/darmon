@@ -30,6 +30,7 @@ return new class extends Migration
             $table->foreign('doctor_id')->references('id')->on('doctors');
             $table->unsignedBigInteger('reception_id');
             $table->foreign('reception_id')->references('id')->on('receptions');
+            $table->foreign('reception_name')->references('name')->on('receptions');
             $table->date('arrival_date')->useCurrent();
             $table->date('departure_date');
             $table->integer('ward_id');

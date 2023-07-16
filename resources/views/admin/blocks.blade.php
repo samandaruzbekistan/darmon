@@ -12,7 +12,7 @@
                         class="bg-light rounded d-flex align-items-center justify-content-between p-4"
                     >
                         <h1 class="text-primary">{{ $item->letter }}</h1>
-                        <a href="./a-section.html">
+                        <a href="#">
                             <div class="ms-3">
                                 <p class="mb-2">{{ $item->name }}</p>
                                 <h6 class="mb-0">Umumiy palatalar soni: <span>{{ $item->ward_count }}</span></h6>
@@ -21,19 +21,11 @@
                                 </div>
                             </div>
                         </a>
-{{--                        <div class="d-flex gap-1">--}}
-{{--                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editBlog">--}}
-{{--                                <i class="bi bi-pencil-fill"></i>--}}
-{{--                            </button>--}}
-{{--                            </button>--}}
-{{--                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReport">--}}
-{{--                                <i class="bi-clipboard"></i>--}}
-{{--                            </button>--}}
-{{--                        </div>--}}
                     </div>
                 </div>
             @endforeach
         </div>
+        <a href="{{ route('block_export') }}" class="btn btn-success mt-3"><i class="fas fa-file-excel"></i> Excel export</a>
     </div>
 
 

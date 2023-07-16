@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddUserRequest;
 use App\Http\Requests\ReceptionAuthRequest;
 use App\Models\Block;
+use App\Models\Ward;
 use App\Repositories\ReceptionRepository;
 use App\Services\ReceptionService;
 use App\Services\SmsService;
@@ -89,11 +90,12 @@ class ReceptionController extends Controller
     public function addPatient(AddUserRequest $request){
         $user = $this->receptionRepository->getUser($request->name);
         if (count($user) > 0) return back()->with('backData', self::UNSUCCESSFUL);
-        if (($request->arrival_date < Carbon::now()) || ($request->arrival_date > $request->departure_date)) return back()->with('backData', self::DATE_ERROR);
+//        if (($request->arrival_date < Carbon::now()) || ($request->arrival_date > $request->departure_date)) return back()->with('backData', self::DATE_ERROR);
         $response = $this->receptionRepository->addUser($request);
         $doctor = $this->receptionRepository->getDoctor($request->doctor);
         $block = Block::find($request->block_id);
-        $res = $this->smsService->notifyDoctor($request->doctor, $block->letter, $doctor->phone);
+        $ward = Ward::find($request->ward_id);
+        $res = $this->smsService->notifyDoctor($request->doctor, $block->letter, $doctor->phone, $ward->number);
         $jsonEncoded = json_decode($res);
         if ($jsonEncoded->status != "waiting") return back()->with('backData', self::SMS_ERROR);
         return back()->with('backData', self::SUCCESSFUL);

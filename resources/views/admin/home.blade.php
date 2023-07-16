@@ -66,8 +66,8 @@
         <div class="container-fluid pt-4 px-4">
             <div class="bg-light text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Bemorlar</h6>
-                    <button class="btn btn-primary"><span>+</span> Bemor qo'shish</button>
+                    <h6 class="mb-0">Kunduzgi ko'rik</h6>
+                    <button class="btn btn-success">Ko'rikdan o'tkazildi</button>
                 </div>
                 <div class="table-responsive">
                     <table
@@ -76,72 +76,83 @@
                         <thead>
                         <tr class="text-dark">
                             <th scope="col">
-                                Bloklar
+                                Ko'rik
                             </th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Invoice</th>
-                            <th scope="col">Customer</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">Bemor</th>
+                            <th scope="col">Doctor</th>
+                            <th scope="col">Blok</th>
+                            <th scope="col">Palata</th>
+                            <th scope="col">Holat</th>
+                            <th scope="col">Sabab</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" /></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" href="">Detail</a>
-                            </td>
+                        @foreach($data['day'] as $process)
+                            @if($process->type == 1)
+                                <tr>
+                                    <td><input class="form-check-input" type="checkbox" /></td>
+                                    <td>{{ $process->user_name }}</td>
+                                    <td>{{ $process->doctor }}</td>
+                                    <td>{{ $process->block_letter }}</td>
+                                    <td>{{ $process->ward_number }}</td>
+                                    @if($process->status == 1)
+                                        <td><i class="bi bi-check2 h4 text-success"></i></td>
+                                    @else
+                                        <td><i class="bi bi-x h4 text-danger"></i></td>
+                                    @endif
+                                        <td>{{ $process->reason }}</td>
+                                </tr>
+                            @endif
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Kechgi ko'rik</h6>
+                    <button class="btn btn-success">Ko'rikdan o'tkazildi</button>
+                </div>
+                <div class="table-responsive">
+                    <table
+                        class="table text-start align-middle table-bordered table-hover mb-0"
+                    >
+                        <thead>
+                        <tr class="text-dark">
+                            <th scope="col">
+                                Ko'rik
+                            </th>
+                            <th scope="col">Bemor</th>
+                            <th scope="col">Doctor</th>
+                            <th scope="col">Blok</th>
+                            <th scope="col">Palata</th>
+                            <th scope="col">Holat</th>
+                            <th scope="col">Sabab</th>
                         </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" /></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" href="">Detail</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" /></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" href="">Detail</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" /></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" href="">Detail</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" /></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" href="">Detail</a>
-                            </td>
-                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($data['day'] as $process)
+                            @if($process->type == 2)
+                                <tr>
+                                    <td><input class="form-check-input" type="checkbox" /></td>
+                                    <td>{{ $process->user_name }}</td>
+                                    <td>{{ $process->doctor }}</td>
+                                    <td>{{ $process->block_letter }}</td>
+                                    <td>{{ $process->ward_number }}</td>
+                                    @if($process->status == 1)
+                                        <td><i class="bi bi-check2 h4 text-success"></i></td>
+                                    @else
+                                        <td><i class="bi bi-x h4 text-danger"></i></td>
+                                    @endif
+                                        <td>{{ $process->reason }}</td>
+                                </tr>
+                            @endif
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -149,92 +160,92 @@
         </div>
         <!-- Add Patient End -->
 
-        <!-- Add Doctor Start -->
-        <div class="container-fluid pt-4 px-4">
-            <div class="bg-light text-center rounded p-4">
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Shifokorlar</h6>
-                    <button class="btn btn-primary"><span>+</span> Shifokor qo'shish</button>
-                </div>
-                <div class="table-responsive">
-                    <table
-                        class="table text-start align-middle table-bordered table-hover mb-0"
-                    >
-                        <thead>
-                        <tr class="text-dark">
-                            <th scope="col">
-                                <input class="form-check-input" type="checkbox" />
-                            </th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Invoice</th>
-                            <th scope="col">Customer</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" /></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" href="">Detail</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" /></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" href="">Detail</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" /></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" href="">Detail</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" /></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" href="">Detail</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" /></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" href="">Detail</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <!-- Add Doctor End -->
+{{--        <!-- Add Doctor Start -->--}}
+{{--        <div class="container-fluid pt-4 px-4">--}}
+{{--            <div class="bg-light text-center rounded p-4">--}}
+{{--                <div class="d-flex align-items-center justify-content-between mb-4">--}}
+{{--                    <h6 class="mb-0">Shifokorlar</h6>--}}
+{{--                    <button class="btn btn-primary"><span>+</span> Shifokor qo'shish</button>--}}
+{{--                </div>--}}
+{{--                <div class="table-responsive">--}}
+{{--                    <table--}}
+{{--                        class="table text-start align-middle table-bordered table-hover mb-0"--}}
+{{--                    >--}}
+{{--                        <thead>--}}
+{{--                        <tr class="text-dark">--}}
+{{--                            <th scope="col">--}}
+{{--                                <input class="form-check-input" type="checkbox" />--}}
+{{--                            </th>--}}
+{{--                            <th scope="col">Date</th>--}}
+{{--                            <th scope="col">Invoice</th>--}}
+{{--                            <th scope="col">Customer</th>--}}
+{{--                            <th scope="col">Amount</th>--}}
+{{--                            <th scope="col">Status</th>--}}
+{{--                            <th scope="col">Action</th>--}}
+{{--                        </tr>--}}
+{{--                        </thead>--}}
+{{--                        <tbody>--}}
+{{--                        <tr>--}}
+{{--                            <td><input class="form-check-input" type="checkbox" /></td>--}}
+{{--                            <td>01 Jan 2045</td>--}}
+{{--                            <td>INV-0123</td>--}}
+{{--                            <td>Jhon Doe</td>--}}
+{{--                            <td>$123</td>--}}
+{{--                            <td>Paid</td>--}}
+{{--                            <td>--}}
+{{--                                <a class="btn btn-sm btn-primary" href="">Detail</a>--}}
+{{--                            </td>--}}
+{{--                        </tr>--}}
+{{--                        <tr>--}}
+{{--                            <td><input class="form-check-input" type="checkbox" /></td>--}}
+{{--                            <td>01 Jan 2045</td>--}}
+{{--                            <td>INV-0123</td>--}}
+{{--                            <td>Jhon Doe</td>--}}
+{{--                            <td>$123</td>--}}
+{{--                            <td>Paid</td>--}}
+{{--                            <td>--}}
+{{--                                <a class="btn btn-sm btn-primary" href="">Detail</a>--}}
+{{--                            </td>--}}
+{{--                        </tr>--}}
+{{--                        <tr>--}}
+{{--                            <td><input class="form-check-input" type="checkbox" /></td>--}}
+{{--                            <td>01 Jan 2045</td>--}}
+{{--                            <td>INV-0123</td>--}}
+{{--                            <td>Jhon Doe</td>--}}
+{{--                            <td>$123</td>--}}
+{{--                            <td>Paid</td>--}}
+{{--                            <td>--}}
+{{--                                <a class="btn btn-sm btn-primary" href="">Detail</a>--}}
+{{--                            </td>--}}
+{{--                        </tr>--}}
+{{--                        <tr>--}}
+{{--                            <td><input class="form-check-input" type="checkbox" /></td>--}}
+{{--                            <td>01 Jan 2045</td>--}}
+{{--                            <td>INV-0123</td>--}}
+{{--                            <td>Jhon Doe</td>--}}
+{{--                            <td>$123</td>--}}
+{{--                            <td>Paid</td>--}}
+{{--                            <td>--}}
+{{--                                <a class="btn btn-sm btn-primary" href="">Detail</a>--}}
+{{--                            </td>--}}
+{{--                        </tr>--}}
+{{--                        <tr>--}}
+{{--                            <td><input class="form-check-input" type="checkbox" /></td>--}}
+{{--                            <td>01 Jan 2045</td>--}}
+{{--                            <td>INV-0123</td>--}}
+{{--                            <td>Jhon Doe</td>--}}
+{{--                            <td>$123</td>--}}
+{{--                            <td>Paid</td>--}}
+{{--                            <td>--}}
+{{--                                <a class="btn btn-sm btn-primary" href="">Detail</a>--}}
+{{--                            </td>--}}
+{{--                        </tr>--}}
+{{--                        </tbody>--}}
+{{--                    </table>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <!-- Add Doctor End -->--}}
     </div>
     <!-- Content End -->
 

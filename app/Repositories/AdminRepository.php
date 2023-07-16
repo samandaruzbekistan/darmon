@@ -56,10 +56,8 @@ class AdminRepository
 
 //    Get day process
     public function getDayProcess(){
-        $data = Process::where('date', );
+        return Process::where('date', date('Y-m-d'))->get();
     }
-
-
 
 
 
@@ -160,14 +158,63 @@ class AdminRepository
 
 
 
-//    Hamshira va Receptionlar
+//  Receptionlar
+    public function getReceptions(){
+        return Reception::orderBy('name')->get();
+    }
 
+    public function getReception($login){
+        return Reception::where('login', $login)->first();
+    }
+
+    public function addReception($data){
+        $reception = Reception::create($data);
+        $reception->password = md5(md5($data['password']));
+        $reception->save();
+    }
+
+    public function deleteReception($id){
+        Reception::find($id)->delete();
+    }
+
+    public function updateReception($data){
+        $reception = Reception::find($data['id']);
+        $reception->phone = $data['phone'];
+        $reception->login = $data['login'];
+        $reception->password = md5(md5($data['password']));
+        $reception->save();
+    }
+
+
+
+
+
+
+//    Hamshiralar
     public function getNurses(){
         return Nurse::orderBy('name')->get();
     }
 
-    public function getReceptions(){
-        return Reception::orderBy('name')->get();
+    public function getNurse($login){
+        return Nurse::where('login', $login)->first();
+    }
+
+    public function addNurse($data){
+        $reception = Nurse::create($data);
+        $reception->password = md5(md5($data['password']));
+        $reception->save();
+    }
+
+    public function deleteNurse($id){
+        Nurse::find($id)->delete();
+    }
+
+    public function updateNurse($data){
+        $reception = Nurse::find($data['id']);
+        $reception->phone = $data['phone'];
+        $reception->login = $data['login'];
+        $reception->password = md5(md5($data['password']));
+        $reception->save();
     }
 
 

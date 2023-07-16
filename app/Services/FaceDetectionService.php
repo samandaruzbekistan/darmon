@@ -16,14 +16,14 @@ class FaceDetectionService
     const API_ERROR = 3;
 
 
-    public function getFace($image){
+    public function detectFace($ImageBase64String){
         global $urlFaceDetect;
         $user = new Client();
         $options1 = [
             'multipart' => [
                 [
                     'name' => 'ImageBase64String',
-                    'contents' => "{$image}"
+                    'contents' => "{$ImageBase64String}"
                 ],
             ]];
         $request = new \GuzzleHttp\Psr7\Request('POST', $this->urlFaceDetect);
