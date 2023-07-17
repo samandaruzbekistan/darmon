@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 
 class FaceDetectionService
 {
-    protected string $urlFaceDetect = 'https://portal.gspi.uz';
+    protected string $urlFaceDetect = 'https://portal.gspi.uz/Face/Detect';
     protected string $urlAddFace = 'https://portal.gspi.uz/Face/Add';
     const UNSUCCESSFUL = 0;
     const SUCCESSFUL = 1;
@@ -18,7 +18,7 @@ class FaceDetectionService
 
     public function detectFace($ImageBase64String){
         global $urlFaceDetect;
-        $user = new Client();
+        $user = new Client(['verify' => false]);
         $options1 = [
             'multipart' => [
                 [
@@ -27,8 +27,8 @@ class FaceDetectionService
                 ],
             ]];
         $request = new \GuzzleHttp\Psr7\Request('POST', $this->urlFaceDetect);
-        $res = $user->sendAsync($request,$options1)->wait();
-        return $res;
+        $res = $user->sendAsync($request,$options1)->wait()->getBody();
+        return str_replace('=>','', "$res");
     }
 
 

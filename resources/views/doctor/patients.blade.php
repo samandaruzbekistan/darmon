@@ -56,7 +56,7 @@
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item">
                     <a
-                        href="{{ route('reception_home') }}"
+                        href="{{ route('doctor_home') }}"
                         class="nav-link active"
                     >
                         <i class="fa fa-hospital me-lg-2"></i>
@@ -70,12 +70,13 @@
             </div>
         </nav>
         <!-- Navbar End -->
-
+    <form>
+        <h6 class="pt-4 px-4">Bugungi sana: {{ date('Y-m-d') }}</h6>
         <div class="container-fluid pt-4 px-4">
             <div class="bg-light text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h6 class="mb-0"><i class="bi bi-sun"></i> Kunduzgi ko'rik</h6>
-                    <button class="btn btn-success">Ko'rikdan o'tkazildi</button>
+                    <button class="btn btn-success" type="submit">Ko'rikdan o'tkazildi</button>
                 </div>
                 <div class="table-responsive">
                     <table
@@ -96,8 +97,8 @@
                         <tbody>
                         @foreach($patients as $process)
                             @if($process->type == 1)
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox" /></td>
+                                <tr class="">
+                                    <td><input class="form-check-input" name="process_id" value="{{ $process->id }}" type="checkbox" /></td>
                                     <td>{{ $process->user_name }}</td>
                                     <td>{{ $process->doctor }}</td>
                                     <td>{{ $process->block_letter }}</td>
@@ -106,11 +107,13 @@
                                 </tr>
                             @endif
                         @endforeach
+                        {{ count($patients) }}
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+    </form>
 
         <div class="container-fluid pt-4 px-4">
             <div class="bg-light text-center rounded p-4">
@@ -180,7 +183,7 @@
 </div>
 <script>
     function logout() {
-        window.location="{{ route('logout_reception') }}";
+        window.location="{{ route('logout_doctor') }}";
     }
 </script>
 <!-- JavaScript Libraries -->

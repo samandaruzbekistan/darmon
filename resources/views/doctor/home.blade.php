@@ -121,7 +121,7 @@
 </div>
 <script>
     function logout() {
-        window.location="{{ route('logout_reception') }}";
+        window.location="{{ route('logout_doctor') }}";
     }
 </script>
 <!-- JavaScript Libraries -->

@@ -100,9 +100,11 @@ Route::prefix('doctor')->group(function () {
     Route::view('/', 'doctor.login')->name('doctor_login_page');
     Route::post('auth', [DoctorController::class, 'auth'])->name('doctor_login');
 //    Middleware for reception
-    Route::middleware(['reception_auth'])->group(function () {
+    Route::middleware(['doctor_auth'])->group(function () {
+        Route::get('logout_doctor', [DoctorController::class, 'logout_doctor'])->name('logout_doctor');
         Route::get('/home', [DoctorController::class, 'home'])->name('doctor_home');
         Route::get('/patients/{block_letter}', [DoctorController::class, 'showPatients'])->name('showPatients');
+
     });
 });
 
