@@ -24,6 +24,7 @@
                     <select id="type" name="type" class="form-select" aria-label="Default select example">
                         <option value="all">Xona turi: Barcha</option>
                         <option value="standard">Standart</option>
+                        <option value="pollux">Pol lux</option>
                         <option value="lux">Lux</option>
                     </select>
                 </div>
@@ -86,6 +87,7 @@
                             <label for="input1" class="form-label">Palata turi </label>
                             <select id="type" name="type" class="form-select" aria-label="Default select example">
                                 <option value="standard">Standard</option>
+                                <option value="pollux">Pol lux</option>
                                 <option value="lux">Lux</option>
                             </select>
                         </div>
@@ -93,7 +95,7 @@
                             <label for="input1" class="form-label">Blog </label>
                             <select id="block_id" name="block_id" class="form-select" aria-label="Default select example">
                                 @foreach($blocks as $block)
-                                    <option value="{{ $block->id }}">{{ $block->name }}</option>
+                                    <option value="{{ $block->id }}">{{ $block->letter }} blok {{ $block->name }}</option>
                                 @endforeach
                             </select>
                         </div>

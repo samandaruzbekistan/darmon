@@ -64,7 +64,9 @@ Route::prefix('admin')->group(function () {
         Route::get('editDoctor/{name?}', [AdminController::class,'editDoctor'])->name('doctor_edit');
 
 
-        Route::post('editDoctorkjhjhk', [AdminController::class,'getFace'])->name('getFace');
+//        SMS control
+        Route::get('sms-service', [AdminController::class, 'sms'])->name('sms');
+        Route::post('send-sms', [AdminController::class,'sendSMS'])->name('admin_send_sms');
     });
 });
 
@@ -103,7 +105,11 @@ Route::prefix('doctor')->group(function () {
     Route::middleware(['doctor_auth'])->group(function () {
         Route::get('logout_doctor', [DoctorController::class, 'logout_doctor'])->name('logout_doctor');
         Route::get('/home', [DoctorController::class, 'home'])->name('doctor_home');
+
+//        Bemorlar bilan ishlash
         Route::get('/patients/{block_letter}', [DoctorController::class, 'showPatients'])->name('showPatients');
+        Route::post('/patients-approval_of_inspection', [DoctorController::class, 'approval_of_inspection'])->name('approval_of_inspection');
+        Route::post('/patients-not-found', [DoctorController::class, 'patientNotFound'])->name('patientNotFound');
 
     });
 });

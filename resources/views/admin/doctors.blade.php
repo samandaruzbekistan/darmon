@@ -56,7 +56,7 @@
                     <thead>
                     <tr class="text-dark">
                         <th scope="col">
-                            #
+                            ID
                         </th>
                         <th scope="col">F.I.Sh</th>
                         <th scope="col">Yo'nalishi</th>
@@ -67,9 +67,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($doctors as $id => $item)
+                    @foreach($doctors as $item)
                     <tr>
-                        <td>{{ $id+1 }}</td>
+                        <td>{{ $item->id }}</td>
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->profession }}</td>
                         <td>{{ $item->phone }}</td>

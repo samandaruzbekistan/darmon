@@ -163,6 +163,10 @@ class AdminRepository
         return Reception::orderBy('name')->get();
     }
 
+    public function getReceptionsNumbers(){
+        return Reception::all(['phone']);
+    }
+
     public function getReception($login){
         return Reception::where('login', $login)->first();
     }

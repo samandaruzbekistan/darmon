@@ -17,6 +17,8 @@ class DoctorRepository
         return Process::where('block_letter', $block_letter)
             ->where('doctor', $doctor_name)
             ->where('date', date('Y-m-d'))
+            ->where('type',1)
+            ->where('status', 0)
             ->get();
     }
 }

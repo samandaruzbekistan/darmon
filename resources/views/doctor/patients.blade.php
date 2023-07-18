@@ -70,9 +70,9 @@
             </div>
         </nav>
         <!-- Navbar End -->
-    <form>
         <h6 class="pt-4 px-4">Bugungi sana: {{ date('Y-m-d') }}</h6>
-        <div class="container-fluid pt-4 px-4">
+        @if(count($patients) > 0)
+            <div class="container-fluid pt-4 px-4">
             <div class="bg-light text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h6 class="mb-0"><i class="bi bi-sun"></i> Kunduzgi ko'rik</h6>
@@ -95,66 +95,45 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($patients as $process)
-                            @if($process->type == 1)
-                                <tr class="">
-                                    <td><input class="form-check-input" name="process_id" value="{{ $process->id }}" type="checkbox" /></td>
-                                    <td>{{ $process->user_name }}</td>
-                                    <td>{{ $process->doctor }}</td>
-                                    <td>{{ $process->block_letter }}</td>
-                                    <td>{{ $process->ward_number }}</td>
-                                    <td>{{ $process->ward_number }}</td>
-                                </tr>
-                            @endif
+                        @foreach($patients as $id => $process)
+                            <tr class="">
+                                <td>{{ $process->user_name }}</td>
+                                <td>{{ $process->doctor }}</td>
+                                <td>{{ $process->block_letter }}</td>
+                                <td>{{ $process->ward_number }}</td>
+                                <td>
+                                    <form action="{{ route('patientNotFound') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $process->id }}">
+                                        <button class="btn btn-sm btn-warning m-2">Topilmadi</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="{{ route('approval_of_inspection') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $process->id }}">
+                                        <button class="btn btn-sm btn-success m-2">Bajarildi</button>
+                                    </form>
+                                </td>
+                                @csrf
+                            </tr>
                         @endforeach
-                        {{ count($patients) }}
+                        <input type="hidden" name="count_process" value="{{ count($patients) }}" />
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-    </form>
+        @else
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-light text-center rounded p-4">
+                    <span class="text-success">Barcha bemorlar ko'rikdan o'tkazilgan</span>
+                </div>
+            </div>
+        @endif
 
-        <div class="container-fluid pt-4 px-4">
-            <div class="bg-light text-center rounded p-4">
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0"><i class="bi bi-moon-stars"></i> Tungi ko'rik</h6>
-                    <button class="btn btn-success">Ko'rikdan o'tkazildi</button>
-                </div>
-                <div class="table-responsive">
-                    <table
-                        class="table text-start align-middle table-bordered table-hover mb-0"
-                    >
-                        <thead>
-                        <tr class="text-dark">
-                            <th scope="col">
-                                Ko'rik
-                            </th>
-                            <th scope="col">Bemor</th>
-                            <th scope="col">Doctor</th>
-                            <th scope="col">Blok</th>
-                            <th scope="col">Palata</th>
-                            <th scope="col">Topilmadi</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($patients as $process)
-                            @if($process->type == 2)
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox" /></td>
-                                    <td>{{ $process->user_name }}</td>
-                                    <td>{{ $process->doctor }}</td>
-                                    <td>{{ $process->block_letter }}</td>
-                                    <td>{{ $process->ward_number }}</td>
-                                    <td>{{ $process->ward_number }}</td>
-                                </tr>
-                            @endif
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+
+
 
 
 

@@ -7,6 +7,7 @@ use App\Http\Requests\AdminRequest;
 use App\Services\AdminService;
 use App\Services\FaceDetectionService;
 use App\Repositories\AdminRepository;
+use App\Services\SmsService;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -15,7 +16,7 @@ use Termwind\Html\InheritStyles;
 
 class AdminController extends Controller
 {
-    public function __construct(protected AdminService $adminService, protected AdminRepository $adminRepository, protected FaceDetectionService $faceDetectionService)
+    public function __construct(protected SmsService $smsService, protected AdminService $adminService, protected AdminRepository $adminRepository, protected FaceDetectionService $faceDetectionService)
     {
     }
 
@@ -284,6 +285,39 @@ class AdminController extends Controller
         ]);
         $this->adminRepository->updateNurse($request->input());
         return back();
+    }
+
+
+
+
+
+
+//    SMS control
+    public function sms(){
+        $limit = $this->smsService->getLimit();
+        return view('admin.sms', ['balance' => $limit['data']['balance']]);
+    }
+
+    public function sendSMS(Request $request){
+        $request->validate([
+            'to' => 'required|string',
+            'message' => 'required|string'
+        ]);
+        $users = [];
+        switch ($request->to) {
+            case "doctor":
+                $users = $this->adminRepository->getDoctors();
+                break;
+            case "patient":
+                break;
+            case "nurse":
+                $users = $this->adminRepository->getNurses();
+            case "reception":
+                $users = $this->adminRepository->getReceptionsNumbers();
+                break;
+        };
+//        return $users;
+        return $this->smsService->sendSMS($users);
     }
 
 }

@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DoctorLoginRequest;
+use App\Models\Process;
 use App\Repositories\DoctorRepository;
 use App\Repositories\ReceptionRepository;
 use App\Services\FaceDetectionService;
+use App\Services\SmsService;
 use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
     protected const FACE_NOT_DETECT = 0;
 
-    public function __construct(protected FaceDetectionService $faceDetectionService, protected DoctorRepository $doctorRepository, protected ReceptionRepository $receptionRepository)
+    public function __construct(protected SmsService $smsService, protected FaceDetectionService $faceDetectionService, protected DoctorRepository $doctorRepository, protected ReceptionRepository $receptionRepository)
     {
     }
 
@@ -32,13 +34,34 @@ class DoctorController extends Controller
         return view('doctor.home', ['blocks' => $blocks]);
     }
 
+    public function logout_doctor(){
+        session()->flush();
+        return redirect()->route('doctor_login_page');
+    }
+
+
+
+//    Patients control
     public function showPatients($block_letter){
         $patients = $this->doctorRepository->getPatients($block_letter, session('doctor_name'));
         return view('doctor.patients', ['patients' => $patients]);
     }
 
-    public function logout_doctor(){
-        session()->flush();
-        return redirect()->route('doctor_login_page');
+    public function approval_of_inspection(Request $request){
+        $request->validate(['id' => 'required|numeric']);
+        $process = Process::find($request->id);
+        $process->status = 1;
+        $this->smsService->notifyPatient($process->phone, $process->user_name, $process->doctor);
+        $process->save();
+        return back();
+    }
+
+    public function patientNotFound(Request $request){
+        $request->validate(['id' => 'required|numeric']);
+        $process = Process::find($request->id);
+        $process->status = 1;
+        $this->smsService->patientNotFound($process->user_name, $process->phone);
+        $process->save();
+        return back();
     }
 }
