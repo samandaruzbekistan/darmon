@@ -6,6 +6,8 @@ use App\Models\Sms;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Http;
 
 class SmsService
 {
@@ -146,7 +148,7 @@ class SmsService
         return $res;
     }
 
-    public function sendSMS($numbers){
+    public function sendSMS($numbers, $message){
         $token = Sms::find(1);
         $current_date = Carbon::now();
         $token_expiry_date = Carbon::parse($token->updated_at)->addMonth();
@@ -155,16 +157,12 @@ class SmsService
             if ($re['message'] == 'error') return response()->json(['message'=> 'error'], 200);
         }
         $token = $token->token;
-        $user = new Client();
-        $headers = [
-            'Authorization' => "Bearer {$token}"
-        ];
         $messages = [];
         foreach ($numbers as $index => $number) {
             $messages[] = [
                 "user_sms_id" => "sms" . ($index + 1),
                 "to" => $number->phone,
-                "text" => "This is a test SMS to number",
+                "text" => $message,
             ];
         }
 
@@ -173,21 +171,51 @@ class SmsService
             "from" => "4546",
             "dispatch_id" => 123
         ];
-
-        // Convert the payload to JSON format
-        $jsonPayload = json_encode($data);
-        $new = '{
-    "messages": [
-        {"user_sms_id":"sms1","to": 998975672009, "text": "eto test"},
-        {"user_sms_id":"sms2","to": 998975672009, "text": "eto test 2"}
-    ],
-    "from": "4546",
-    "dispatch_id": 123
-}';
-        $request = new \GuzzleHttp\Psr7\Request('POST', 'notify.eskiz.uz/api/message/sms/send-batch', $headers, $new);
-
-        $res = $user->sendAsync($request)->wait();
-        return $res->getBody();
+//        dd(json_encode($data));
+        $response = Http::withToken($token)
+            ->withHeaders(['Content-Type' => 'application/json'])
+            ->post('https://notify.eskiz.uz/api/message/sms/send-batch', $data);
+        // Check if the request was successful
+        if ($response->successful()) {
+            // Return the response JSON or extract specific data as needed
+            return $response->json();
+        } else {
+            // Return an error message or handle the failed request
+            return json_decode($response->body(), true);
+        }
+        //        $user = new Client();
+//        $headers = [
+//            'Authorization' => "Bearer {$token}"
+//        ];
+//        $messages = [];
+//        foreach ($numbers as $index => $number) {
+//            $messages[] = [
+//                "user_sms_id" => "sms" . ($index + 1),
+//                "to" => $number->phone,
+//                "text" => "This is a test SMS to number",
+//            ];
+//        }
+//
+//        $data = [
+//            "messages" => $messages,
+//            "from" => "4546",
+//            "dispatch_id" => 123
+//        ];
+//
+//        // Convert the payload to JSON format
+//        $jsonPayload = json_encode($data);
+//        $new = '{
+//    "messages": [
+//        {"user_sms_id":"sms1","to": 998975672009, "text": "eto test"},
+//        {"user_sms_id":"sms2","to": 998975672009, "text": "eto test 2"}
+//    ],
+//    "from": "4546",
+//    "dispatch_id": 123
+//}';
+//        $request = new \GuzzleHttp\Psr7\Request('POST', 'notify.eskiz.uz/api/message/sms/send-batch', $headers, $new);
+//
+//        $res = $user->sendAsync($request)->wait();
+//        return $res->getBody();
     }
 
     public function getLimit(){

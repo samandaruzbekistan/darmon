@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('phone');
+            $table->unsignedBigInteger('phone2');
             $table->date('birth_date');
             $table->unsignedBigInteger('region_id');
             $table->foreign('region_id')->references('id')->on('regions');
@@ -35,6 +36,8 @@ return new class extends Migration
             $table->date('departure_date');
             $table->integer('ward_id');
             $table->integer('block_id');
+            $table->integer('is_uzbekistan')->default(1);
+            $table->integer('status')->default(0);
             $table->foreign('ward_id')->references('id')->on('wards');
             $table->timestamps();
         });

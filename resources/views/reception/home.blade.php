@@ -87,7 +87,7 @@
                             <div class="ms-3">
                                 <p class="mb-2">{{ $item->name }}</p>
                                 <h6 class="mb-0">Umumiy palatalar soni: <span>{{ $item->ward_count }}</span></h6>
-                                <h6 class="mb-0">Umumiy bemorlar soni: <span>{{ $item->users_count }}</span></h6>
+                                <h6 class="mb-0">Bo'sh joylar soni: <span>{{ $item->space_count-$item->users_count }}</span></h6>
                             </div>
                         </a>
                         <div class="d-flex gap-1">

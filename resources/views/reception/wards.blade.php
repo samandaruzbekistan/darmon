@@ -79,7 +79,7 @@
         <div class="container-fluid pt-4 px-4">
             <div class="row cards-container">
                 @foreach($wards as $ward)
-                    <div class="col-2 btn-card" id="{{ $ward->id }}" data-action="{{ $ward->block_id }}" style="cursor: pointer">
+                    <div class="col-md-4 col-sm-6 col-lg-2 btn-card" id="{{ $ward->id }}" data-action="{{ $ward->block_id }}" style="cursor: pointer">
                             <div class="card p-3 mb-2" >
                                 <div class="d-flex justify-content-between">
                                     <div class="d-flex flex-row align-items-center">
@@ -226,20 +226,51 @@
                         <form id="createPatientForm" action="{{ route('add-patient') }}" method="post">
                             @csrf
                             <div class="mb-3">
-                                <label for="namePatient" class="form-label">F.I.SH</label> <sup class="text-danger">*</sup>
+                                <div class="d-flex justify-content-between">
+                                    <div style="display: inline-block">
+                                        <label for="namePatient" class="form-label">F.I.SH</label> <sup class="text-danger">*</sup>
+                                    </div>
+
+                                    <div class="form-check form-switch" style="display: inline-block">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="is_uzbekistan">
+                                        <label class="form-check-label" for="is_uzbekistan">Chel el fuqarosi</label>
+                                    </div>
+                                </div>
+
                                 <input required name="name" type="text" class="form-control" id="namePatient">
                             </div>
-                            <div class="row">
+                            <div class="row" id="tyil">
                                 <div class="mb-3 col-sm-6">
                                     <label for="phone" class="form-label">Telefon raqami</label> <sup class="text-danger">*</sup>
-                                    <input name="phone" required type="number" class="form-control" id="phone" data-maska="+998 (##) ###-##-##">
+                                    <input name="phone" required type="number" pattern=".{5,}" class="form-control" id="phone">
                                 </div>
+                                <div class="mb-3 col-sm-6">
+                                    <label for="birthdate1" class="form-label">Yaqinlari telefoni</label> <sup class="text-danger">*</sup>
+                                    <input name="phone2" required type="number" class="form-control" id="birthdate1">
+                                </div>
+                            </div>
+                            <div class="row" id="tyil">
                                 <div class="mb-3 col-sm-6">
                                     <label for="birthdate" class="form-label">Tug'ilgan sanasi</label> <sup class="text-danger">*</sup>
                                     <input name="birth_date" required type="date" class="form-control" id="birthdate">
                                 </div>
+                                <div class="mb-3 col-sm-6">
+                                    <label for="birthdate" class="form-label">Jinsi</label> <sup class="text-danger">*</sup>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="sex" id="flexRadioDefault1" value="male" checked>
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            Erkak
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="sex" value="female" id="flexRadioDefault2" >
+                                        <label class="form-check-label" for="flexRadioDefault2">
+                                            Ayol
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="row">
+                            <div class="row" id="regions">
                                 <div class="mb-3 col-sm-4">
                                     <label for="region" class="form-label">Viloyat</label> <sup class="text-danger">*</sup>
                                     <select id="region" required class="form-select" name="region_id">
@@ -325,6 +356,21 @@
 
 
     <script>
+        $(document).ready(function() {
+            $('#is_uzbekistan').change(function() {
+                if(this.checked) {
+                    $('#regions').hide();
+                    $('#tyil').hide();
+                    $('#createPatientForm').attr('action', '{{ route('add-patient-abroad') }}');
+                }
+                else{
+                    $('#regions').show();
+                    $('#tyil').show();
+                    $('#createPatientForm').attr('action', '{{ route('add-patient') }}');
+                }
+            });
+        });
+
         function submitBtn() {
             document.getElementById('submit').click();
         }

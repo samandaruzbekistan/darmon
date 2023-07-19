@@ -23,6 +23,8 @@ class User extends Model
         'arrival_date',
         'departure_date',
         'reception_id',
+        'sex',
+        'phone2'
     ];
 
     protected $table = "users";

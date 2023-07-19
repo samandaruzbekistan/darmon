@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\NurseController;
 use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\SmsController;
 use Illuminate\Support\Facades\Route;
@@ -86,7 +87,8 @@ Route::prefix('reception')->group(function () {
         Route::get('get-users/{id?}', [ReceptionController::class, 'getUsers'])->name('reception_get_users');
         Route::get('search-users', [ReceptionController::class, 'searchUsers'])->name('reception_search_users');
         Route::get('get-all-doctors', [ReceptionController::class, 'getDoctors'])->name('reception_get_doctors');
-            Route::post('add-patient', [ReceptionController::class, 'addPatient'])->name('add-patient');
+        Route::post('add-patient', [ReceptionController::class, 'addPatient'])->name('add-patient');
+        Route::post('add-patient-abroad', [ReceptionController::class, 'addPatientAbroad'])->name('add-patient-abroad');
 
 
         // Regionlar bilan ishlash
@@ -110,6 +112,23 @@ Route::prefix('doctor')->group(function () {
         Route::get('/patients/{block_letter}', [DoctorController::class, 'showPatients'])->name('showPatients');
         Route::post('/patients-approval_of_inspection', [DoctorController::class, 'approval_of_inspection'])->name('approval_of_inspection');
         Route::post('/patients-not-found', [DoctorController::class, 'patientNotFound'])->name('patientNotFound');
+
+    });
+});
+
+
+Route::prefix('nurse')->group(function () {
+    Route::view('/', 'nurse.login')->name('doctor_login_page');
+    Route::post('auth', [NurseController::class, 'auth'])->name('nurse_login');
+//    Middleware for reception
+    Route::middleware(['nurse_auth'])->group(function () {
+        Route::get('logout_nurse', [NurseController::class, 'logout_nurse'])->name('logout_nurse');
+        Route::get('/home', [NurseController::class, 'home'])->name('nurse_home');
+
+//        Bemorlar bilan ishlash
+//        Route::get('/patients/{block_letter}', [DoctorController::class, 'showPatients'])->name('showPatients');
+//        Route::post('/patients-approval_of_inspection', [DoctorController::class, 'approval_of_inspection'])->name('approval_of_inspection');
+//        Route::post('/patients-not-found', [DoctorController::class, 'patientNotFound'])->name('patientNotFound');
 
     });
 });

@@ -316,8 +316,13 @@ class AdminController extends Controller
                 $users = $this->adminRepository->getReceptionsNumbers();
                 break;
         };
-//        return $users;
-        return $this->smsService->sendSMS($users);
+        $response = $this->smsService->sendSMS($users,$request->message);
+        if ($response['status'] == "success"){
+            return back()->with('backData', self::SUCCESSFUL);
+        }
+        else{
+            return back()->with('backData', self::UNSUCCESSFUL);
+        }
     }
 
 }

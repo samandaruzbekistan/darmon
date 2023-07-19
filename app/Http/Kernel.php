@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\AdminAuth;
 use App\Http\Middleware\DoctorAuth;
+use App\Http\Middleware\NurseAuth;
 use App\Http\Middleware\ReceptionAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -69,5 +70,6 @@ class Kernel extends HttpKernel
         'reception_auth' => ReceptionAuth::class,
         'admin_auth' => AdminAuth::class,
         'doctor_auth' => DoctorAuth::class,
+        'nurse_auth' => NurseAuth::class,
     ];
 }
