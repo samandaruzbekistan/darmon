@@ -25,7 +25,9 @@ class AddUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'phone' => 'required|numeric',
+            'sex' => 'required|string',
+            'phone' => 'required|numeric|digits:12',
+            'phone2' => 'required|numeric|digits:12',
             'birth_date' => 'required|date',
             'arrival_date' => 'required|date',
             'departure_date' => 'required|date',

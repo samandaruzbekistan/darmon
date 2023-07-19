@@ -136,6 +136,25 @@
                 </div>
             </div>
         </div>
+        @if($errors->any())
+            <div class="modal   " id="errorModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 id="message" class="text-danger">Xatolik!</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="modalReferences">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
 
         @if(session()->has('backData'))
             @switch(session('backData'))
@@ -454,7 +473,7 @@
                      for (var i = 0; i < references[0].length; i++) {
                          referencesHtml += '<p><i class="bi bi-person-fill"></i> F.I.Sh: ' + references[0][i].name + '</p>';
                          referencesHtml += '<p><i class="bi bi-building-add"></i> Kelgan: ' + references[0][i].arrival_date + '</p>';
-                         referencesHtml += '<p><i class="bi bi-building-dash"></i> Telefon: ' + references[0][i].departure_date + '</p>';
+                         referencesHtml += '<p><i class="bi bi-building-dash"></i> Telefon: ' + references[0][i].phone + '</p>';
                          // Add more fields as needed
                          referencesHtml += '<hr>';
                      }

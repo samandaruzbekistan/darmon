@@ -95,7 +95,7 @@ class ReceptionController extends Controller
         $doctor = $this->receptionRepository->getDoctor($request->doctor);
         $block = Block::find($request->block_id);
         $ward = Ward::find($request->ward_id);
-        $res = $this->smsService->notifyDoctor($request->doctor, $block->letter, $doctor->phone, $ward->number);
+        $res = $this->smsService->notifyDoctor($request->doctor, $block->name, $doctor->phone, $ward->number);
         $jsonEncoded = json_decode($res);
         if ($jsonEncoded->status != "waiting") return back()->with('backData', self::SMS_ERROR);
         return back()->with('backData', self::SUCCESSFUL);

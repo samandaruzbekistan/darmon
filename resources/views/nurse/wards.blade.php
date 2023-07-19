@@ -58,11 +58,12 @@
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
             <form class="d-none d-md-flex ms-4">
-                <input class="form-control border-0" type="search" placeholder="Search">
+                <input class="form-control border-0" id="searchInput" type="search" placeholder="Search">
             </form>
+            <h5 class="navbar-nav m-auto">{{ session('nurse_name') }}</h5>
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item">
-                    <a href="{{ route('reception_home') }}" class="nav-link active">
+                    <a href="{{ route('nurse_home') }}" class="nav-link active">
                         <i class="fa fa-hospital me-lg-2"></i>
                         <span class="d-none d-lg-inline-flex">Bloglar</span>
                     </a>
@@ -135,6 +136,11 @@
                 </div>
             </div>
         </div>
+        <form action="{{ route('remove_patient') }}" method="post" style="display: none">
+            @csrf
+            <input type="hidden" name="user_id" id="user_id_input" value="0">
+            <button type="submit" id="sb-btn">s</button>
+        </form>
 
         @if(session()->has('backData'))
             @switch(session('backData'))
@@ -173,11 +179,11 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 id="message" class="text-danger">Ogohlantirish!</h4>
+                                    <h4 id="message" class="text-success">Muvaffaqaiyatli!</h4>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body" id="modalReferences">
-                                    Bemor tizimga kiritildi. Sms xizmatida muammo bor
+                                    Bemor malumotlari o'zgartirildi
                                 </div>
                             </div>
                         </div>
@@ -188,11 +194,11 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 id="message" class="text-danger">Xatolik!</h4>
+                                    <h4 id="message" class="text-success">Muvaffaqaiyatli!</h4>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body" id="modalReferences">
-                                    Sanalar noto'g'ri kiritilgan
+                                    Bemor tizimdan chiqarib yuborildi
                                 </div>
                             </div>
                         </div>
@@ -221,11 +227,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Yangi bemor qo'shish</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ma'lumotlarni taxrirlash</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="createPatientForm" action="{{ route('add-patient') }}" method="post">
+                    <form id="createPatientForm" action="{{ route('edit_patient') }}" method="post">
                         @csrf
                         <div class="mb-3">
                             <label for="namePatient" class="form-label">F.I.SH</label> <sup class="text-danger">*</sup>
@@ -253,8 +259,7 @@
                                 <input name="phone2" required type="number" class="form-control" id="phone2">
                             </div>
                         </div>
-                        <input type="hidden" name="ward_id" value="0" id="ward_id"/>
-                        <input type="hidden" name="block_id" value="0" id="block_id"/>
+                        <input type="hidden" name="user_id" value="0" id="user_id"/>
                         <div class="mb-3 row">
                             <div class="col-6">
                                 <label for="leaveDate" class="form-label">Kelgan sanasi</label> <sup class="text-danger">*</sup>
@@ -285,7 +290,20 @@
     <!-- Add new room button -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" data-bs-toggle="modal" data-bs-target="#addRoom"><i class="bi bi-plus"></i></a>
 </div>
+<!-- Search MODAL -->
+<div class="modal fade h-50" id="editBlog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input id="modalSearchInput" type="text" class="form-control" placeholder="Qidirish...">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body overflow-auto" id="modalReferences2">
 
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -301,7 +319,81 @@
 
 
 <script>
+    function submitBtn() {
+        document.getElementById('submit').click();
+    }
+    $(document).on('click', ".remove-user", function() {
+        let userID = $(this).attr('id');
+        $('#user_id_input').val(userID);
+        if (confirm("Haqiqatdan ham ushbu bemornin tizimdan chiqarmoqchimisiz?") == true) {
+            document.getElementById('sb-btn').click();
+        } else {
+            return false;
+        }
+    });
 
+    $(document).ready(function() {
+        // Show modal on search input click
+        $('#searchInput').on('click', function() {
+            $('#editBlog').modal('show');
+        });
+
+
+
+        // Handle form submission in modal
+        $('#editBlog').on('click', '.btn-primary', function() {
+            var blogName = $('#input1').val();
+            var totalViews = $('#input3').val();
+
+            // Perform further actions (e.g., AJAX request to save the changes)
+            // ...
+
+            // Close the modal
+            $('#editBlog').modal('hide');
+        });
+
+
+        // Handle search input in modal
+        $('#modalSearchInput').on('input', function() {
+            var query = $(this).val();
+            var loadingIndicator = $('#loadingIndicator');
+
+            // Display the loading indicator
+            loadingIndicator.show();
+
+            // Make AJAX request to fetch search results
+            $.ajax({
+                url: '{{ route('nurse_search_users') }}', // Replace with your backend route for handling search
+                method: 'GET',
+                data: { name: query },
+                success: function(response) {
+                    var references = response; // Assign the response directly
+                    var referencesHtml = '';
+
+                    // Loop through the references and generate HTML
+                    for (var i = 0; i < references.length; i++) {
+                        referencesHtml += '<p><i class="bi bi-person-fill"></i> F.I.Sh: ' + references[i].name + '</p>';
+                        referencesHtml += '<p><i class="bi bi-house-fill"></i> Joylashuv: ' + references[i].block_name + ',' + references[i].ward_number + '-palata </p>';
+                        referencesHtml += '<p><i class="bi bi-telephone-fill"></i> Telefon: ' + references[i].phone + '</p>';
+                        // Add more fields as needed
+                        referencesHtml += '<hr>';
+                    }
+
+                    // Display the references in the modal
+                    $('#modalReferences2').html(referencesHtml);
+
+                    // Hide the loading indicator
+                    loadingIndicator.hide();
+                },
+                error: function() {
+                    // Handle error case
+                    // Hide the loading indicator
+                    loadingIndicator.hide();
+                }
+            });
+
+        });
+    });
 
     $(window).on('load', function() {
         $('#errorModal').modal('show');
@@ -317,6 +409,8 @@
                     $('#showPatients').modal('hide');
                     $('#namePatient').val(response[0].name);
                     $('#phone').val(response[0].phone);
+                    $('#phone2').val(response[0].phone2);
+                    $('#user_id').val(response[0].id);
                     $('#kelgan').val(response[0].arrival_date);;
                     $('#ketgan').val(response[0].departure_date);
                     $("#block").empty();
@@ -370,7 +464,7 @@
         $('#block_id').val(blockID);
         // Display the loading indicator
         $.ajax({
-            url: '{{ route('reception_get_users') }}/' + cardID, // Replace with your backend route for handling search
+            url: '{{ route('nurse_get_users') }}/' + cardID, // Replace with your backend route for handling search
             method: 'GET',
             success: function(response) {
                 var references = response; // Assign the response directly
@@ -393,7 +487,7 @@
                     referencesHtml += '</div>';
                     referencesHtml += '<div class="col-4 text-end">';
                     referencesHtml += '<button class="btn btn-warning mb-3 edit-btn" id="'+ references[0][i].id +'"><i class="bi bi-pencil"></i></button><br>';
-                    referencesHtml += '<button class="btn btn-danger"><i class="bi bi-trash"></i></button>';
+                    referencesHtml += '<button class="btn btn-danger remove-user" id="'+references[0][i].id+'"><i class="bi bi-trash"></i></button>';
                     referencesHtml += '</div>';
                     referencesHtml += '</div> <hr>';
                 }
@@ -410,7 +504,7 @@
     });
 
     function logout() {
-        window.location="{{ route('logout_reception') }}";
+        window.location="{{ route('logout_nurse') }}";
     }
 
 

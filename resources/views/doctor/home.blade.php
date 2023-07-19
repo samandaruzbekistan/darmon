@@ -56,7 +56,7 @@
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item">
                     <a
-                        href="{{ route('reception_home') }}"
+                        href="{{ route('doctor_home') }}"
                         class="nav-link active"
                     >
                         <i class="fa fa-hospital me-lg-2"></i>

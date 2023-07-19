@@ -58,6 +58,7 @@
                 <a href="{{ route('doctors') }}" class="nav-item nav-link @yield('doctors')"><i class="fas fa-user-md me-2"></i>Shifokorlar</a>
                 <a href="{{ route('receptions') }}" class="nav-item nav-link @yield('reception')"><i class="fas fa-sign-out-alt me-2"></i>Qabulxona</a>
                 <a href="{{ route('nurses') }}" class="nav-item nav-link @yield('nurse')"><i class="fas fa-notes-medical me-2"></i>Hamshiralar</a>
+                <a href="{{ route('employees') }}" class="nav-item nav-link @yield('employees')"><i class="fas fa-users me-2"></i>Xodimlar</a>
                 <a href="{{ route('sms') }}" class="nav-item nav-link @yield('sms')"><i class="fas fa-sms me-2"></i>SMS xizmati</a>
 
                 <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>

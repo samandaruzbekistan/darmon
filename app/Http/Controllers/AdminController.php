@@ -28,6 +28,7 @@ class AdminController extends Controller
     const API_ERROR = 3;
     const NAME_ERROR = 4;
     const LOGIN_ERROR = 5;
+    const DELETE = 6;
 
 
 
@@ -323,6 +324,32 @@ class AdminController extends Controller
         else{
             return back()->with('backData', self::UNSUCCESSFUL);
         }
+    }
+
+
+
+
+
+//    employees control
+    public function getEmployees(){
+        return view('admin.employees', ['employees' => $this->adminRepository->getEmployees()]);
+    }
+
+    public function addEmployee(Request $request){
+        $request->validate([
+            'name' => 'required|string',
+            'phone' => 'required|numeric|digits:12'
+        ]);
+        $this->adminRepository->addEmployee($request->input());
+        return back()->with('backData', self::SUCCESSFUL);
+    }
+
+    public function deleteEmployees(Request $request){
+        $request->validate([
+            'id' => 'required|numeric'
+        ]);
+        $this->adminRepository->deleteEmployees($request->id);
+        return back()->with('backData', self::DELETE);
     }
 
 }

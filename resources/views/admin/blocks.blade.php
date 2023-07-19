@@ -25,7 +25,42 @@
                 </div>
             @endforeach
         </div>
-        <a href="{{ route('block_export') }}" class="btn btn-success mt-3"><i class="fas fa-file-excel"></i> Excel export</a>
+
+    </div>
+
+    <div class="container-fluid pt-4 px-4">
+        <div class="col-sm-12">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Malumotlar</h6>
+                <table class="table" id="tbl_exporttable_to_xls">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Blog</th>
+                        <th scope="col">Post</th>
+                        <th scope="col">Palata soni</th>
+                        <th scope="col">Joylar soni</th>
+                        <th scope="col">Bemorlar soni</th>
+                        <th scope="col">Foiz</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($blocks as $id => $item)
+                        <tr>
+                            <th scope="row">{{ $id+1 }}</th>
+                            <td>{{ $item->letter }}</td>
+                            <td>{{ $item->name }}</td>
+                            <td>{{ $item->ward_count }}</td>
+                            <td>{{ $item->space_count }}</td>
+                            <td>{{ $item->users_count }}</td>
+                            <td>{{ $item->filled_prosent }}%</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <button onclick="ExportToExcel()" class="btn btn-success mt-3"><i class="fas fa-file-excel"></i> Excel export</button>
     </div>
 
 
@@ -71,72 +106,20 @@
         </div>
     </div>
 
-    <!-- EDIT BLOG MODAL -->
-{{--    <div class="modal fade" id="editBlog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
-{{--        <div class="modal-dialog">--}}
-{{--            <div class="modal-content">--}}
-{{--                <div class="modal-header">--}}
-{{--                    <h5 class="modal-title" id="exampleModalLabel">Blog ma'lumotlarini tahrirlash</h5>--}}
-{{--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--}}
-{{--                </div>--}}
-{{--                <div class="modal-body">--}}
-{{--                    <div class="mb-3">--}}
-{{--                        <label for="input1" class="form-label">Blog nomi</label>--}}
-{{--                        <input type="text" class="form-control" id="input1">--}}
-{{--                    </div>--}}
-{{--                    <div class="mb-3">--}}
-{{--                        <label for="input3" class="form-label">Umumiy palatalar soni</label>--}}
-{{--                        <input type="number" class="form-control" id="input3">--}}
-{{--                    </div>--}}
-{{--                    <div class="modal-footer">--}}
-{{--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor qilish</button>--}}
-{{--                        <button type="button" class="btn btn-primary">Saqlash</button>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
 
-{{--    <!-- ADD REPORT MODAL -->--}}
-{{--    <div class="modal fade" id="addReport" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
-{{--        <div class="modal-dialog">--}}
-{{--            <div class="modal-content">--}}
-{{--                <div class="modal-header">--}}
-{{--                    <h5 class="modal-title" id="exampleModalLabel">Hisobot kiritish</h5>--}}
-{{--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--}}
-{{--                </div>--}}
-{{--                <div class="modal-body">--}}
-{{--                    <div class="mb-3">--}}
-{{--                        <label for="input1" class="form-label">Palata nomi</label>--}}
-{{--                        <input type="text" class="form-control" id="input1">--}}
-{{--                    </div>--}}
-{{--                    <div class="mb-3">--}}
-{{--                        <label for="input2" class="form-label">Shifokor ism-familiyasi</label>--}}
-{{--                        <select name="selectDoctor" id="input2" class="form-select">--}}
-{{--                            <option value="">Doktor Haus</option>--}}
-{{--                            <option value="">Doktor Jamshid</option>--}}
-{{--                            <option value="">Doktor Doniyor</option>--}}
-{{--                        </select>--}}
-{{--                    </div>--}}
-{{--                    <div class="mb-3">--}}
-{{--                        <label for="input3" class="form-label">Hisobot</label>--}}
-{{--                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>--}}
-{{--                    </div>--}}
-{{--                    <div class="modal-footer">--}}
-{{--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor qilish</button>--}}
-{{--                        <button type="button" class="btn btn-primary">Saqlash</button>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <!-- Content End -->--}}
-
-
-    <!-- Back to Top -->
-    <!-- <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a> -->
-
-    <!-- Add new blog button -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" data-bs-toggle="modal" data-bs-target="#addBlog"><i class="bi bi-plus"></i></a>
 
+@endsection
+
+@section('js')
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    <script>
+        function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('tbl_exporttable_to_xls');
+            var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+            return dl ?
+                XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+                XLSX.writeFile(wb, fn || ('bloglar-haqida-malumot.' + (type || 'xlsx')));
+        }
+    </script>
 @endsection

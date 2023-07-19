@@ -49,7 +49,7 @@
     <!-- Content Start -->
     <div class="content">
         <!-- Navbar Start -->
-        <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+        <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0 justify-content-between">
             <form class="d-none d-md-flex ms-4" >
                 <input id="searchInput"
                        class="form-control border-0"
@@ -57,6 +57,7 @@
                        placeholder="Qidirish"
                 />
             </form>
+            <h5 class="navbar-nav m-auto">{{ session('nurse_name') }}</h5>
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item">
                     <a
@@ -116,7 +117,7 @@
                         <input id="modalSearchInput" type="text" class="form-control" placeholder="Qidirish...">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body overflow-auto" id="modalReferences">
+                    <div class="modal-body overflow-auto" id="modalReferences2">
 
                     </div>
                 </div>
@@ -133,7 +134,7 @@
 </div>
 <script>
     function logout() {
-        window.location="{{ route('logout_reception') }}";
+        window.location="{{ route('logout_nurse') }}";
     }
 </script>
 <!-- JavaScript Libraries -->
@@ -193,7 +194,7 @@
                     }
 
                     // Display the references in the modal
-                    $('#modalReferences').html(referencesHtml);
+                    $('#modalReferences2').html(referencesHtml);
 
                     // Hide the loading indicator
                     loadingIndicator.hide();

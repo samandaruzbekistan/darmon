@@ -4,7 +4,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\NurseController;
 use App\Http\Controllers\ReceptionController;
-use App\Http\Controllers\SmsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,6 +67,11 @@ Route::prefix('admin')->group(function () {
 //        SMS control
         Route::get('sms-service', [AdminController::class, 'sms'])->name('sms');
         Route::post('send-sms', [AdminController::class,'sendSMS'])->name('admin_send_sms');
+
+//        Employees control
+        Route::get('employees', [AdminController::class,'getEmployees'])->name('employees');
+        Route::post('add-employees', [AdminController::class,'addEmployee'])->name('addEmployee');
+        Route::delete('deleteEmployees', [AdminController::class,'deleteEmployees'])->name('deleteEmployees');
     });
 });
 
@@ -127,9 +131,12 @@ Route::prefix('nurse')->group(function () {
         Route::get('/show-wards-nurse/{id}', [NurseController::class, 'showWard'])->name('nurse_wards');
 
 //        Bemorlar bilan ishlash
+        Route::get('get-users/{id?}', [NurseController::class, 'getUsers'])->name('nurse_get_users');
         Route::get('/patient/{id?}', [NurseController::class, 'getPatientById'])->name('getPatientById');
         Route::get('/wards-by-id/{id?}', [NurseController::class, 'getWardById'])->name('getWardById');
-//        Route::post('/patients-approval_of_inspection', [DoctorController::class, 'approval_of_inspection'])->name('approval_of_inspection');
+        Route::post('/edit_patient', [NurseController::class, 'edit_patient'])->name('edit_patient');
+        Route::get('search-users', [NurseController::class, 'searchUsers'])->name('nurse_search_users');
+        Route::post('/remove_patient', [NurseController::class, 'remove_patient'])->name('remove_patient');
 //        Route::post('/patients-not-found', [DoctorController::class, 'patientNotFound'])->name('patientNotFound');
 
     });

@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Admin;
 use App\Models\Block;
 use App\Models\Doctor;
+use App\Models\Employee;
 use App\Models\Nurse;
 use App\Models\Process;
 use App\Models\Reception;
@@ -221,5 +222,24 @@ class AdminRepository
         $reception->save();
     }
 
+
+
+
+
+//    getEmployees
+    public function getEmployees(){
+        return Employee::orderBy('name')->get();
+    }
+
+    public function addEmployee($data){
+        $user = new Employee;
+        $user->name = $data['name'];
+        $user->phone = $data['phone'];
+        $user->save();
+    }
+
+    public function deleteEmployees($id){
+        Employee::where('id', $id)->delete();
+    }
 
 }
