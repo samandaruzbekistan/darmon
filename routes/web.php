@@ -118,15 +118,17 @@ Route::prefix('doctor')->group(function () {
 
 
 Route::prefix('nurse')->group(function () {
-    Route::view('/', 'nurse.login')->name('doctor_login_page');
+    Route::view('/', 'nurse.login')->name('nurse_login_page');
     Route::post('auth', [NurseController::class, 'auth'])->name('nurse_login');
 //    Middleware for reception
     Route::middleware(['nurse_auth'])->group(function () {
         Route::get('logout_nurse', [NurseController::class, 'logout_nurse'])->name('logout_nurse');
         Route::get('/home', [NurseController::class, 'home'])->name('nurse_home');
+        Route::get('/show-wards-nurse/{id}', [NurseController::class, 'showWard'])->name('nurse_wards');
 
 //        Bemorlar bilan ishlash
-//        Route::get('/patients/{block_letter}', [DoctorController::class, 'showPatients'])->name('showPatients');
+        Route::get('/patient/{id?}', [NurseController::class, 'getPatientById'])->name('getPatientById');
+        Route::get('/wards-by-id/{id?}', [NurseController::class, 'getWardById'])->name('getWardById');
 //        Route::post('/patients-approval_of_inspection', [DoctorController::class, 'approval_of_inspection'])->name('approval_of_inspection');
 //        Route::post('/patients-not-found', [DoctorController::class, 'patientNotFound'])->name('patientNotFound');
 

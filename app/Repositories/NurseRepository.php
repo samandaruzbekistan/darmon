@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Models\Nurse;
 use App\Models\Reception;
+use App\Models\User;
+
 
 class NurseRepository
 {
@@ -14,4 +16,10 @@ class NurseRepository
             ->get();
         return $nurse;
     }
+
+    public function getPatientById($id){
+        $user = User::find($id);
+        return $user;
+    }
+
 }

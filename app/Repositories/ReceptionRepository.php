@@ -210,7 +210,7 @@ class ReceptionRepository
 
 //    Userlarni olish palata bo'yicha
     public function getUsers($id){
-        $users = User::where('ward_id', $id)->get(['name', 'arrival_date','departure_date']);
+        $users = User::where('ward_id', $id)->get(['name','id', 'arrival_date','departure_date','phone']);
         return $users;
     }
 

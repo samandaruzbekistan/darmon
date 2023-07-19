@@ -39,4 +39,24 @@ class NurseController extends Controller
     {
         return view('nurse.home')->with('blocks', $this->receptionRepository->getBlocks());
     }
+
+    public function showWard($id){
+        if (!isset($id)){
+            return back();
+        }
+        $wards = $this->receptionRepository->getWards($id);
+        return view('nurse.wards', ['wards' => $wards]);
+    }
+
+    public function getPatientById($id){
+        $user = $this->nurseRepository->getPatientById($id);
+        $blocks = $this->receptionRepository->getBlocks();
+        $wards = $this->receptionRepository->getWards($user->block_id);
+        return response()->json([$user, $blocks,$wards]);
+    }
+
+    public function getWardById($id){
+        $wards = $this->receptionRepository->getWards($id);
+        return response()->json($wards);
+    }
 }
