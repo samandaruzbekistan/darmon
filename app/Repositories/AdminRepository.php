@@ -9,7 +9,9 @@ use App\Models\Employee;
 use App\Models\Nurse;
 use App\Models\Process;
 use App\Models\Reception;
+use App\Models\User;
 use App\Models\Ward;
+use Carbon\Carbon;
 use http\Env\Request;
 
 class AdminRepository
@@ -106,18 +108,6 @@ class AdminRepository
 
 
 //    Delete block
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -240,6 +230,44 @@ class AdminRepository
 
     public function deleteEmployees($id){
         Employee::where('id', $id)->delete();
+    }
+
+
+
+    public function searchUsers($gender = 'all',$doctorId = 'all',$startDate = 'all',$endDate = 'all', $phone = 'phone')
+    {
+//        return [$gender,$doctorId,$startDate,$endDate];
+        // Create a query builder to fetch users
+        $query = User::query();
+
+        // Filter users based on gender and doctor_id
+        if ($gender != 'all') {
+            $query->where('sex', $gender);
+        }
+
+        if ($doctorId != 'all') {
+            $query->where('doctor', $doctorId);
+        }
+
+        // Filter users based on age range (birth date between start and end dates)
+        if (($startDate != 'all') && ($endDate != 'all')) {
+            $startDateTime = Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay();
+            $endDateTime = Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay();
+
+            $query->whereBetween('birth_date', [$startDateTime, $endDateTime]);
+        }
+        $query->where('status', 1);
+
+        // Execute the query and fetch the users
+        if ($phone != 'phone2'){
+            $users = $query->get(['phone']);
+        }
+        else{
+            $users = $query->get(['phone2 as phone']);
+        }
+
+        // Return the users to a view for display
+        return $users;
     }
 
 }

@@ -296,7 +296,7 @@ class AdminController extends Controller
 //    SMS control
     public function sms(){
         $limit = $this->smsService->getLimit();
-        return view('admin.sms', ['balance' => $limit['data']['balance']]);
+        return view('admin.sms', ['balance' => $limit['data']['balance'], 'doctors' => $this->adminRepository->getDoctors()]);
     }
 
     public function sendSMS(Request $request){
@@ -309,15 +309,34 @@ class AdminController extends Controller
             case "doctor":
                 $users = $this->adminRepository->getDoctors();
                 break;
-            case "patient":
-                break;
             case "nurse":
                 $users = $this->adminRepository->getNurses();
-            case "reception":
-                $users = $this->adminRepository->getReceptionsNumbers();
+            case "employee":
+                $users = $this->adminRepository->getEmployees();
                 break;
         };
         $response = $this->smsService->sendSMS($users,$request->message);
+        if ($response['status'] == "success"){
+            return back()->with('backData', self::SUCCESSFUL);
+        }
+        else{
+            return back()->with('backData', self::UNSUCCESSFUL);
+        }
+    }
+
+    public function sendSmsToUsers(Request $request)
+    {
+        $request->validate([]);
+        // Get the input parameters from the form
+        $gender = $request->input('gender');
+        $doctorId = $request->input('doctor');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $phone = $request->input('phone');
+
+       $users = $this->adminRepository->searchUsers($gender, $doctorId,$startDate,$endDate, $phone);
+        $response = $this->smsService->sendSMS($users,$request->message);
+//        return $response;
         if ($response['status'] == "success"){
             return back()->with('backData', self::SUCCESSFUL);
         }

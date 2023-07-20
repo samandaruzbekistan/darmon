@@ -57,6 +57,9 @@
 
                     <input type="radio" class="btn-check" name="to" value="nurse" id="btnradio3" autocomplete="off">
                     <label class="btn btn-outline-primary" for="btnradio3">Hamshiralar</label>
+
+                    <input type="radio" class="btn-check" name="to" value="employee" id="btnradio4" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btnradio4">Xodimlar</label>
                 </div>
                 <div class="form-floating mt-3 col-5">
                     <textarea class="form-control" name="message" required placeholder="Leave a comment here" id="floatingTextarea" style="height: 150px;"></textarea>
@@ -75,9 +78,42 @@
                 <h6 class="mb-0">SMS xizmati bemorlar uchun</h6>
                 <h6>Balance: <span class="text-danger">{{ $balance }}</span> so'm</h6>
             </div>
-            <form action="{{ route('admin_send_sms') }}" method="post">
+            <form action="{{ route('sendSmsToUsers') }}" method="post">
                 @csrf
-
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="type" class="form-label">Shifokor</label>
+                        <select id="block_id" name="doctor" class="form-select" aria-label="Default select example">
+                            <option value="all">Barchasi</option>
+                            @foreach($doctors as $block)
+                                <option value="{{ $block->name }}">{{ $block->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="type" class="form-label">Jinsi</label>
+                        <select id="type" name="gender" class="form-select" aria-label="Default select example">
+                            <option value="all">Barchasi</option>
+                            <option value="male">Erkak</option>
+                            <option value="female">Ayol</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="type" class="form-label">Telefon</label>
+                        <select id="type" name="phone" class="form-select" aria-label="Default select example">
+                            <option value="phone">O'zinikiga</option>
+                            <option value="phone2">Yaqinlarinikiga</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                            <label for="leaveDate" class="form-label">Bu sanadan (tug'ilgan sana)</label>
+                            <input type="date" max="{{ date('Y-m-d', strtotime('-1 days')) }}" name="start_date" required class="form-control" id="leaveDate">
+                    </div>
+                    <div class="col">
+                            <label for="leaveDate" class="form-label">Bu sanagacha (tug'ilgan sana)</label>
+                            <input type="date" max="{{ date('Y-m-d') }}" name="end_date" required class="form-control" id="leaveDate">
+                    </div>
+                </div>
                 <div class="form-floating mt-3 col-5">
                     <textarea class="form-control" name="message" required placeholder="Leave a comment here" id="floatingTextarea" style="height: 150px;"></textarea>
                     <label for="floatingTextarea">Xabar</label>

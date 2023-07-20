@@ -67,6 +67,7 @@ Route::prefix('admin')->group(function () {
 //        SMS control
         Route::get('sms-service', [AdminController::class, 'sms'])->name('sms');
         Route::post('send-sms', [AdminController::class,'sendSMS'])->name('admin_send_sms');
+        Route::post('sendSmsToUsers', [AdminController::class,'sendSmsToUsers'])->name('sendSmsToUsers');
 
 //        Employees control
         Route::get('employees', [AdminController::class,'getEmployees'])->name('employees');
